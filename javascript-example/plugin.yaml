@@ -1,0 +1,21 @@
+apiVersion: 1.0
+metadata:
+  codeName: "com.hedon_haven.tester_external"
+  prettyName: "Tester as External"
+  version: 1.0
+  developer: "Hedon dev"
+  description: "A tester plugin for testing external plugins"
+  updateUrl: "https://example.com/plugins/super_search/update.yaml"
+  issuesUrl: "https://github.com/Hedon-Haven/external-plugin-exmaple.yaml"
+  issuesEmail: "contact@hedon-haven.top"
+
+providerData:
+  iconUrl: "https://placehold.co/favicon.ico"
+  providerUrl: "https://tester-external-plugin.com"
+
+initialPageCounts:
+  initialHomePage: 0
+  initialSearchResultsPage: 0
+  initialCommentsPage: 0
+  initialVideoSuggestionsPage: 0
+  initialAuthorVideosPage: 0
