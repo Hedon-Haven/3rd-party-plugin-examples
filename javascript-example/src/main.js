@@ -3,7 +3,7 @@ const simulateDelays = false;
 var progressThumbnailsCancelled = false;
 
 
-async function initPlugin() {
+async function init() {
   if (simulateDelays) await new Promise(r => setTimeout(r, 2000));
   // read cache file to showcase functionality
   const result = await readCacheFile("testerInitFile.txt");
