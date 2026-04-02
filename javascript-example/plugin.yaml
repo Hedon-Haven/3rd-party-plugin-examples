@@ -1,12 +1,12 @@
 apiVersion: 1.0
 metadata:
-  codeName: "com.hedon_haven.tester_external"
-  prettyName: "Tester as External"
+  codeName: "com.hedon_haven.tester_external_js"
+  prettyName: "Tester as External (js)"
   version: 1.0
   developer: "Hedon dev"
-  description: "A tester plugin for testing external plugins"
-  updateUrl: "https://example.com/plugins/super_search/update.yaml"
-  issuesUrl: "https://github.com/Hedon-Haven/external-plugin-exmaple.yaml"
+  description: "A tester plugin written in JavaScript for testing external plugins"
+  updateUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases"
+  issuesUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/issues"
   issuesEmail: "contact@hedon-haven.top"
 
 providerData:
