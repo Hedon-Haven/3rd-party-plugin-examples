@@ -1,1 +1,5 @@
 /.idea/
+
+# Exclude compiled files
+bundle.js
+plugin.zip
