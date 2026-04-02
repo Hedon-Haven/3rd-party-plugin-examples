@@ -1,10 +1,9 @@
 #!/bin/bash
 
-echo "Run from root directory of the plugin for correct output"
-echo "Compiling into bundle.js..."
+echo "Run from root directory of the plugin for correct output!"
 
-output="bundle.js"
-: > "$output"
+echo "Combining into bundle.js..."
+: > bundle.js
 
 {
   for file in ./src/*.js; do
@@ -12,7 +11,7 @@ output="bundle.js"
     cat "$file"
     echo -e "\n// ==== END: $file ====\n"
   done
-} >> "$output"
+} >> bundle.js
 
 echo "Compressing into plugin.zip..."
 rm plugin.zip
