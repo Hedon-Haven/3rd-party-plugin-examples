@@ -1,6 +1,6 @@
-/// Dart bridge functions
+/// Host bridge functions
 
-// Direct web requests are not allowed from the js environment
+// Direct web requests are not allowed from the quickjs environment
 async function httpRequest(url) {
   const response = await sendMessage("httpRequest", JSON.stringify({
     "url": url
@@ -8,7 +8,7 @@ async function httpRequest(url) {
   return JSON.parse(response);
 }
 
-// Mirror logs into the dart environment (and also prefixes it correctly)
+// Mirror logs into the host (and also prefixes it correctly)
 function consoleLog(level, message) {
   sendMessage("consoleLog", JSON.stringify({
     "level": level,
@@ -16,7 +16,7 @@ function consoleLog(level, message) {
   }));
 }
 
-// File access is disabled in the js environment
+// File access is disabled in the quickjs environment
 // Keep in mind that this function is only able to write the plugins own cache files
 async function writeCacheFile(filePath, base64EncodedContents) {
   const response = await sendMessage("writeCacheFile", JSON.stringify({
@@ -27,7 +27,7 @@ async function writeCacheFile(filePath, base64EncodedContents) {
   return JSON.parse(response);
 }
 
-// File access is disabled in the js environment
+// File access is disabled in the quickjs environment
 // Keep in mind that this function is only able to read the plugins own cache files
 async function readCacheFile(filePath) {
   const response = await sendMessage("readCacheFile", JSON.stringify({
