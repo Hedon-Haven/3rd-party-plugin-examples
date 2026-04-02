@@ -1,0 +1,21 @@
+apiVersion: 1.0
+metadata:
+  codeName: "com.hedon_haven.tester_external_dart"
+  prettyName: "Tester as External (dart)"
+  version: 1.0
+  developer: "Hedon dev"
+  description: "A tester plugin written in dart for testing external plugins"
+  updateUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases"
+  issuesUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/issues"
+  issuesEmail: "contact@hedon-haven.top"
+
+providerData:
+  iconUrl: "https://placehold.co/favicon.ico"
+  providerUrl: "https://tester-external-plugin.com"
+
+initialPageCounts:
+  initialHomePage: 0
+  initialSearchResultsPage: 0
+  initialCommentsPage: 0
+  initialVideoSuggestionsPage: 0
+  initialAuthorVideosPage: 0
