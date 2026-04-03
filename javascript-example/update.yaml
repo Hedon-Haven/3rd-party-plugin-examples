@@ -1,0 +1,8 @@
+# latest version to check against local version
+latestVersion: v0.2
+# Link to the new plugin.zip
+fileUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/tester_external_js.zip"
+# multiline changelog to display to user
+changelog:
+  - Update release to demonstrate update mechanism
+  - Bumps version to v0.2
