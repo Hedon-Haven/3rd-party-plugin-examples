@@ -15,6 +15,6 @@ echo "Combining into bundle.js..."
 
 echo "Compressing into plugin.zip..."
 rm plugin.zip
-zip -r plugin.zip . -x "*.zip"
+zip -r plugin.zip src/ bundle.js plugin.yaml
 
 echo "Done"
