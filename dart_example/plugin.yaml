@@ -4,10 +4,10 @@ metadata:
   prettyName: "Tester as External (dart)"
   version: 1.0
   developer: "Hedon dev"
+  contactEmail: "contact@hedon-haven.top"
   description: "A tester plugin written in dart for testing external plugins"
   updateUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases"
   issuesUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/issues"
-  issuesEmail: "contact@hedon-haven.top"
 
 providerData:
   iconUrl: "https://placehold.co/favicon.ico"
