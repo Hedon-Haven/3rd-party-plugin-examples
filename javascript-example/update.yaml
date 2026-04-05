@@ -1,7 +1,7 @@
 # Must be strictly major.minor.patch!
 version: v0.2.0
 downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/tester_external_js.zip"
-sha256sum: "02c4a80184f37baf6e83d945b83e1c80831630c144d4a8eb4fd8248d7777c634"
+sha256Sum: "02c4a80184f37baf6e83d945b83e1c80831630c144d4a8eb4fd8248d7777c634"
 # multiline changelog to display to user
 changelog:
   - Update release to demonstrate update mechanism
