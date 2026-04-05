@@ -1,5 +1,5 @@
 # Must be strictly major.minor.patch!
-version: 0.2.0
+version: v0.2.0
 downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/tester_external_js.zip"
 sha256sum: "631cca80db1e1232d6643317321b3033aa90ee0adc58929260f2093dfd4368d7"
 # multiline changelog to display to user

@@ -1,5 +1,5 @@
 # Must be strictly major.minor.patch!
-version: 0.2.0
+version: v0.2.0
 downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/tester_external_dart.zip"
 sha256sum: "c35bc5dde34913415752abca6e2a7c0a61e597d7144d92aa889080eef54c6d3e"
 # multiline changelog to display to user

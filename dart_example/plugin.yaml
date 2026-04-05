@@ -2,7 +2,7 @@ apiVersion: 1.0
 metadata:
   codeName: "com.hedon_haven.tester_external_dart"
   prettyName: "Tester as External (dart)"
-  version: 0.1.0
+  version: v0.1.0
   developer: "Hedon dev"
   contactEmail: "contact@hedon-haven.top"
   description: "A tester plugin written in dart for testing external plugins"
