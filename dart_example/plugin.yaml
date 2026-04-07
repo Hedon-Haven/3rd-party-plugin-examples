@@ -11,7 +11,10 @@ metadata:
 
 providerData:
   iconUrl: "https://placehold.co/favicon.ico"
-  providerUrl: "https://tester-external-plugin.com"
+  serviceUrl: "https://example.com"
+  handleUrls:
+    - "https://example.com"
+    - "https://example.org"
 
 initialPageCounts:
   initialHomePage: 0
