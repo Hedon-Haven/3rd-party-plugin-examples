@@ -62,7 +62,8 @@ void main() {
   ).then((r) => r.jsify()!).toJS).toJS;
   globalContext["getSearchResults"] =
       ((JSAny? req, JSNumber page) => getSearchResults(
-        req.dartify() as Map<String, dynamic>,
+        (req.dartify() as Map<Object?, Object?>?)?.cast<String, dynamic>() ??
+            <String, dynamic>{},
         page.toDartDouble.toInt(),
       ).then((r) => r.jsify()!).toJS).toJS;
   globalContext["getVideoUriFromID"] = ((JSString id) => getVideoUriFromID(
