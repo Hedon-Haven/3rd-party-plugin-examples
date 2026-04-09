@@ -20,6 +20,53 @@ async function init() {
   return true;
 }
 
+async function parseExternalLink(uriString) {
+  const url = new URL(uriString);
+  const args = Object.fromEntries(url.searchParams.entries());
+
+  switch (url.pathname) {
+    case "/home":
+      return {
+        type: "homePage",
+        pageCount: parseInt(args["page"] ?? "0", 10),
+      };
+
+    case "/search":
+      return {
+        type: "searchResultsPage",
+        searchRequest: {
+          searchString: decodeURIComponent(args["query"] ?? ""),
+          sortingType: args["sortingType"] ?? null,
+          dateRange: args["dateRange"] ?? null,
+          minQuality: args["minQuality"] ? parseInt(args["minQuality"], 10) : null,
+          maxQuality: args["maxQuality"] ? parseInt(args["maxQuality"], 10) : null,
+          minDuration: args["minDuration"] ? parseInt(args["minDuration"], 10) : null,
+          maxDuration: args["maxDuration"] ? parseInt(args["maxDuration"], 10) : null,
+          minFramesPerSecond: args["minFramesPerSecond"] ? parseInt(args["minFramesPerSecond"], 10) : null,
+          maxFramesPerSecond: args["maxFramesPerSecond"] ? parseInt(args["maxFramesPerSecond"], 10) : null,
+          virtualReality: args["virtualReality"] ? args["virtualReality"] === "true" : null,
+          // categories and keywords not yet fully supported
+        },
+        pageCount: parseInt(args["page"] ?? "0", 10),
+      };
+
+    case "/video":
+      return {
+        type: "videoPage",
+        iD: args["videoId"],
+      };
+
+    case "/author":
+      return {
+        type: "authorPage",
+        iD: args["authorId"],
+      };
+
+    default:
+      return { type: "unknown" };
+  }
+}
+
 async function runFunctionalityTest() {
   if (simulateDelays) await new Promise(r => setTimeout(r, 2000));
   consoleLog("info", "Functionality test completed");

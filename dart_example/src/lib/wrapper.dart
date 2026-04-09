@@ -51,6 +51,9 @@ void main() {
   globalContext["init"] = (() => init().then((r) => r.toJS).toJS).toJS;
   globalContext["runFunctionalityTest"] =
       (() => runFunctionalityTest().then((r) => r.toJS).toJS).toJS;
+  globalContext["parseExternalLink"] = ((JSString uri) => parseExternalLink(
+    uri.toDart,
+  ).then((r) => r.jsify()!).toJS).toJS;
   globalContext["getHomePage"] = ((JSNumber page) => getHomePage(
     page.toDartDouble.toInt(),
   ).then((r) => r.jsify()!).toJS).toJS;

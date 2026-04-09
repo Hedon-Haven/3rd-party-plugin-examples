@@ -32,6 +32,45 @@ Future<bool> runFunctionalityTest() async {
   return true;
 }
 
+Future<Map<String, dynamic>> parseExternalLink(String uriString) async {
+  final uri = Uri.parse(uriString);
+  final args = uri.queryParameters;
+
+  switch (uri.path) {
+    case "/home":
+      return {"type": "homePage", "pageCount": int.parse(args["page"] ?? "0")};
+
+    case "/search":
+      return {
+        "type": "searchResultsPage",
+        "searchRequest": {
+          "searchString": Uri.decodeQueryComponent(args["query"] ?? ""),
+          "sortingType": args["sortingType"],
+          "dateRange": args["dateRange"],
+          "minQuality": int.parse(args["minQuality"] ?? "0"),
+          "maxQuality": int.parse(args["maxQuality"] ?? "0"),
+          "minDuration": int.parse(args["minDuration"] ?? "0"),
+          "maxDuration": int.parse(args["maxDuration"] ?? "0"),
+          "minFramesPerSecond": int.parse(args["minFramesPerSecond"] ?? "0"),
+          "maxFramesPerSecond": int.parse(args["maxFramesPerSecond"] ?? "0"),
+          "virtualReality": args["virtualReality"] != null
+              ? args["virtualReality"] == "true"
+              : null,
+        },
+        "pageCount": int.parse(args["page"] ?? "0"),
+      };
+
+    case "/video":
+      return {"type": "videoPage", "iD": args["videoId"]};
+
+    case "/author":
+      return {"type": "authorPage", "iD": args["authorId"]};
+
+    default:
+      return {"type": "unknown"};
+  }
+}
+
 Future<List<Map<String, dynamic>>> getHomePage(int page) async {
   if (simulateDelays) await Future.delayed(const Duration(seconds: 2));
   return List.generate(
