@@ -95,7 +95,10 @@ Future<List<Map<String, dynamic>>> getHomePage(int page) async {
   );
 }
 
-Future<String> downloadThumbnail(String uri) async {
+Future<String> downloadThumbnail(
+  String uri,
+  Map<String, String>? thumbnailHttpHeaders,
+) async {
   try {
     final response = await httpRequest(uri);
     if (response.status == 200) {

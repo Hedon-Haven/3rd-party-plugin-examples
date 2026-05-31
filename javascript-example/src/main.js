@@ -95,7 +95,7 @@ async function getHomePage(page) {
   }));
 }
 
-async function downloadThumbnail(uri) {
+async function downloadThumbnail(uri, thumbnailHttpHeaders) {
   try {
     const response = await httpRequest(uri);
     if (response.status === 200) {

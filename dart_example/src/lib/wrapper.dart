@@ -63,9 +63,13 @@ void main() {
   globalContext["getHomePage"] = ((JSNumber page) => getHomePage(
     page.toDartDouble.toInt(),
   ).then((r) => r.jsify()!).toJS).toJS;
-  globalContext["downloadThumbnail"] = ((JSString uri) => downloadThumbnail(
-    uri.toDart,
-  ).then((r) => r.toJS).toJS).toJS;
+  globalContext["downloadThumbnail"] =
+      ((JSString uri, JSAny? headers) => downloadThumbnail(
+        uri.toDart,
+        (headers?.dartify() as Map<Object?, Object?>?)
+                ?.cast<String, String>() ??
+            const {},
+      ).then((r) => r.toJS).toJS).toJS;
   globalContext["getSearchSuggestions"] = ((JSString s) => getSearchSuggestions(
     s.toDart,
   ).then((r) => r.jsify()!).toJS).toJS;
