@@ -1,9 +1,10 @@
 /// Host bridge functions
 
 // Direct web requests are not allowed from the quickjs environment
-async function httpRequest(url) {
+async function httpRequest(url, headers) {
   const response = await sendMessage("httpRequest", JSON.stringify({
-    "url": url
+    "url": url,
+    "headers": headers
   }));
   return JSON.parse(response);
 }

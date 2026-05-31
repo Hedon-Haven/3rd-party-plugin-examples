@@ -11,9 +11,15 @@ extension type HttpResponse(JSObject _) implements JSObject {
 }
 
 // Call functions from bridge-functions.js
-Future<HttpResponse> httpRequest(String url) async {
+Future<HttpResponse> httpRequest(
+  String url, [
+  Map<String, String> headers = const {},
+]) async {
   final result =
-      await (globalContext.callMethodVarArgs("httpRequest".toJS, [url.toJS])
+      await (globalContext.callMethodVarArgs("httpRequest".toJS, [
+                url.toJS,
+                headers.jsify(),
+              ])
               as JSPromise)
           .toDart;
   return HttpResponse(result as JSObject);
