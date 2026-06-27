@@ -81,7 +81,9 @@ async function getHomePage(page) {
     iD: String(Math.trunc(index * Math.PI * 10000)),
     title: `Test homepage video ${index}, page ${page}`,
     thumbnail: "https://placehold.co/1280x720.png",
+    thumbnailHttpHeaders: {"X-Ignore": "example-header"},
     previewVideo: "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+    previewVideoHttpHeaders: {"X-Ignore": "example-header"},
     duration: 120 + index * 10, // seconds
     viewsTotal: Math.trunc(index * Math.PI * 1000000),
     ratingsPositivePercent: Math.trunc(index * Math.PI * 10) % 101,
@@ -127,7 +129,9 @@ async function getSearchResults(request, page) {
     iD: String(Math.trunc(index * Math.PI * 10000)),
     title: `Test result video ${index}, page ${page}, request ${request["searchString"]}`,
     thumbnail: "https://placehold.co/1280x720.png",
+    thumbnailHttpHeaders: {"X-Ignore": "example-header"},
     previewVideo: "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+    previewVideoHttpHeaders: {"X-Ignore": "example-header"},
     duration: 120 + index * 10, // seconds
     viewsTotal: Math.trunc(index * Math.PI * 1000000),
     ratingsPositivePercent: parseInt((index * Math.PI * 10000)
@@ -266,7 +270,9 @@ async function getVideoSuggestions(videoID, rawHtml, page) {
     iD: String(Math.trunc(index * Math.PI * 10000)),
     title: `Test suggestion video ${index}`,
     thumbnail: "https://placehold.co/1280x720.png",
+    thumbnailHttpHeaders: {"X-Ignore": "example-header"},
     previewVideo: "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+    previewVideoHttpHeaders: {"X-Ignore": "example-header"},
     duration: 120 + index * 10, // seconds
     viewsTotal: Math.trunc(index * Math.PI * 1000000),
     ratingsPositivePercent: parseInt((index * Math.PI * 10000)
@@ -321,7 +327,9 @@ async function getAuthorVideos(authorID, page) {
     iD: String(Math.trunc(index * Math.PI * 10000)),
     title: `Test author video ${index}, page ${page}`,
     thumbnail: "https://placehold.co/1280x720.png",
+    thumbnailHttpHeaders: {"X-Ignore": "example-header"},
     previewVideo: "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+    previewVideoHttpHeaders: {"X-Ignore": "example-header"},
     duration: 120 + index * 10, // seconds
     viewsTotal: Math.trunc(index * Math.PI * 1000000),
     ratingsPositivePercent: parseInt((index * Math.PI * 10000)

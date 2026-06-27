@@ -79,8 +79,10 @@ Future<List<Map<String, dynamic>>> getHomePage(int page) async {
       "iD": (index * pi * 10000).toInt().toString(),
       "title": "Test homepage video $index, page $page",
       "thumbnail": "https://placehold.co/1280x720.png",
+      "thumbnailHttpHeaders": {"X-Ignore": "example-header"},
       "previewVideo":
           "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+      "previewVideoHttpHeaders": {"X-Ignore": "example-header"},
       "duration": 120 + index * 10, // seconds
       "viewsTotal": (index * pi * 1000000).toInt(),
       "ratingsPositivePercent": (index * pi * 10).toInt() % 101,
@@ -131,8 +133,10 @@ Future<List<Map<String, dynamic>>> getSearchResults(
       "title":
           "Test result video $index, page $page, request ${request["searchString"]}",
       "thumbnail": "https://placehold.co/1280x720.png",
+      "thumbnailHttpHeaders": {"X-Ignore": "example-header"},
       "previewVideo":
           "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+      "previewVideoHttpHeaders": {"X-Ignore": "example-header"},
       "duration": 120 + index * 10, // seconds
       "viewsTotal": (index * pi * 1000000).toInt(),
       "ratingsPositivePercent": (index * pi * 10000).toInt() == 0
@@ -287,8 +291,10 @@ Future<List<Map<String, dynamic>>> getVideoSuggestions(
       "iD": (index * pi * 10000).toInt().toString(),
       "title": "Test suggestion video $index",
       "thumbnail": "https://placehold.co/1280x720.png",
+      "thumbnailHttpHeaders": {"X-Ignore": "example-header"},
       "previewVideo":
           "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+      "previewVideoHttpHeaders": {"X-Ignore": "example-header"},
       "duration": 120 + index * 10, // seconds
       "viewsTotal": (index * pi * 1000000).toInt(),
       "ratingsPositivePercent": (index * pi * 10000).toInt() == 0
@@ -350,8 +356,10 @@ Future<List<Map<String, dynamic>>> getAuthorVideos(
       "iD": (index * pi * 10000).toInt().toString(),
       "title": "Test author video $index, page $page",
       "thumbnail": "https://placehold.co/1280x720.png",
+      "thumbnailHttpHeaders": {"X-Ignore": "example-header"},
       "previewVideo":
           "https://docs.evostream.com/sample_content/assets/bunny.mp4",
+      "previewVideoHttpHeaders": {"X-Ignore": "example-header"},
       "duration": 120 + index * 10, // seconds
       "viewsTotal": (index * pi * 1000000).toInt(),
       "ratingsPositivePercent": (index * pi * 10000).toInt() == 0
