@@ -1,8 +1,7 @@
 # Must be strictly major.minor.patch!
-version: v0.3.0
+version: v0.3.1
 downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/tester_external_js.zip"
 sha256Sum: "add_checksum_here"
 # multiline changelog to display to user
 changelog:
-  - allow passing optional http headers to downloadThumbnail
-  - add missing http headers Map to httpRequest
+  - Add previewVideoHttpHeaders and thumbnailHttpHeaders
