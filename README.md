@@ -2,18 +2,17 @@
 
 Template repo for creating third party plugins for Hedon Haven.
 
-# WORK IN PROGRESS! DON'T FORK YET!!!
+## How to create a plugin for Hedon Haven:
 
-## How to create a 3rd party plugin for Hedon Haven
-
-WIP - DO NOT FOLLOW THESE INSTRUCTIONS YET!
+WIP - DO NOT FOLLOW THESE INSTRUCTIONS YET! If you would like to create a 3rd party plugin,
+please [contact me](mailto:contact@hedon-haven.top)!
 
 1. Fork this repo
 2. Decide which language you want to use:
     - JavaScript
     - TypeScript
     - Dart
-    - Others
+    - Others (not yet implemented)
 3. Follow the instructions for the language you chose
 4. Update plugin.yaml with the correct values (replace all placeholders!)
 5. (If using GitHub): Enable GitHub actions
