@@ -24,4 +24,7 @@ touch -d "@0" ./plugin.yaml ./bundle.js
 find ./src -exec touch -d "@0" {} \;
 zip -X -r plugin.zip src/ bundle.js plugin.yaml -x "src/.dart_tool/*"
 
+echo "Calculating sha256 checksum..."
+sha256sum plugin.zip
+
 echo "Done"
