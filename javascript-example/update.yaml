@@ -1,7 +1,7 @@
 # Must be strictly major.minor.patch!
-version: v0.3.1
+version: v0.3.2
 downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/tester_external_js.zip"
 sha256Sum: "add_checksum_here"
 # multiline changelog to display to user
 changelog:
-  - Add previewVideoHttpHeaders and thumbnailHttpHeaders
+  - Rename issuesUrl to issueTrackerUrl

@@ -2,7 +2,7 @@ apiVersion: 1.0
 metadata:
   codeName: "com.hedon_haven.tester_external_dart"
   prettyName: "Tester as External (dart)"
-  version: v0.3.1
+  version: v0.3.2
   developer: "Hedon dev"
   contactEmail: "contact@hedon-haven.top"
   issueTrackerUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/issues"
