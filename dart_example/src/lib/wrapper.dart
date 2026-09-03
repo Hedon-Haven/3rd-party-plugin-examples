@@ -5,9 +5,11 @@ import "main.dart";
 
 // Mimic native dart Response class
 extension type HttpResponse(JSObject _) implements JSObject {
-  external int get status;
+  external int get statusCode;
 
   external String get body;
+
+  external Map<String, String> get headers;
 }
 
 // Call functions from bridge-functions.js

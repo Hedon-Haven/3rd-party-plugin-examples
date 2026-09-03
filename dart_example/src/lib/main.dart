@@ -103,10 +103,13 @@ Future<String> downloadThumbnail(
 ) async {
   try {
     final response = await httpRequest(uri);
-    if (response.status == 200) {
+    if (response.statusCode == 200) {
       return response.body; // base64 encoded bytes
     } else {
-      consoleLog("error", "Error downloading thumbnail: ${response.status}");
+      consoleLog(
+        "error",
+        "Error downloading thumbnail: ${response.statusCode}",
+      );
       return "";
     }
   } catch (e) {
@@ -214,8 +217,9 @@ Future<List<String>> getProgressThumbnails(
   }
   if (progressThumbnailsCancelled) return [];
   final response = await httpRequest("https://placehold.co/720x480.png");
-  if (response.status != 200)
+  if (response.statusCode != 200) {
     throw Exception("Failed to download/convert placeholder image");
+  }
   if (progressThumbnailsCancelled) return [];
   // Return 1000 copies of the same image (base64 encoded body)
   return List.filled(1000, response.body);

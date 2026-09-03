@@ -100,10 +100,10 @@ async function getHomePage(page) {
 async function downloadThumbnail(uri, thumbnailHttpHeaders) {
   try {
     const response = await httpRequest(uri);
-    if (response.status === 200) {
+    if (response.statusCode === 200) {
       return response.body; // base64 encoded bytes
     } else {
-      consoleLog("error", `Error downloading thumbnail: ${response.status}`);
+      consoleLog("error", `Error downloading thumbnail: ${response.statusCode}`);
       return "";
     }
   } catch (e) {
@@ -207,7 +207,7 @@ async function getProgressThumbnails(videoID, rawHtml) {
   }
   if (progressThumbnailsCancelled) return [];
   const response = await httpRequest("https://placehold.co/720x480.png");
-  if (response.status !== 200) throw new Error("Failed to download/convert placeholder image");
+  if (response.statusCode !== 200) throw new Error("Failed to download/convert placeholder image");
   if (progressThumbnailsCancelled) return [];
   // Return 1000 copies of the same image (base64 encoded body)
   return Array(1000)
