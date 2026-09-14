@@ -17,7 +17,6 @@ async function init() {
     consoleLog("info", `Read from file: ${String.fromCharCode(...toByteArray(result))}`);
   }
   consoleLog("info", "Tester External plugin initialized");
-  return true;
 }
 
 async function parseExternalLink(uriString) {

@@ -6,7 +6,7 @@ import 'wrapper.dart';
 const simulateDelays = false;
 bool progressThumbnailsCancelled = false;
 
-Future<bool> init() async {
+Future<void> init() async {
   if (simulateDelays) await Future.delayed(const Duration(seconds: 2));
   // read cache file to showcase functionality
   final result = await readCacheFile("testerInitFile.txt");
@@ -23,7 +23,6 @@ Future<bool> init() async {
     );
   }
   consoleLog("info", "Tester External plugin initialized");
-  return true;
 }
 
 Future<bool> runFunctionalityTest() async {

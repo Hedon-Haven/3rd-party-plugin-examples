@@ -56,7 +56,7 @@ void main() {
   globalContext["document"] = JSObject();
 
   // Bring dart functions into context and handle converting to and from JS
-  globalContext["init"] = (() => init().then((r) => r.toJS).toJS).toJS;
+  globalContext["init"] = (() => init().toJS).toJS;
   globalContext["runFunctionalityTest"] =
       (() => runFunctionalityTest().then((r) => r.toJS).toJS).toJS;
   globalContext["parseExternalLink"] = ((JSString uri) => parseExternalLink(
