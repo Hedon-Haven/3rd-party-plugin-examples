@@ -224,6 +224,7 @@ Future<UniversalVideoMetadata> getVideoMetadata(
       const Duration(seconds: 120): "Chapter 2",
       const Duration(seconds: 240): "Chapter 3",
     },
+    rawHtml: Document(),
   );
 }
 

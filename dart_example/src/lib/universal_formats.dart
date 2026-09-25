@@ -405,10 +405,9 @@ class UniversalVideoMetadata {
     this.ratingsTotal,
     bool? virtualReality,
     this.chapters,
-    Document? rawHtml,
+    required this.rawHtml,
     this.scrapeFailMessage,
-  }) : virtualReality = virtualReality ?? false,
-       rawHtml = rawHtml ?? Document();
+  }) : virtualReality = virtualReality ?? false;
 
   Map<String, dynamic> toJson() => toMap();
 
