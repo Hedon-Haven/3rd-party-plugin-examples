@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 echo "Run from root directory of the plugin for correct output!"
 
 echo "Compiling dart code to js..."
