@@ -1,0 +1,677 @@
+/// Trimmed/slightly simplified version of universal_formats from the main Hedon Haven repo
+library;
+
+import 'dart:typed_data';
+
+import 'package:html/dom.dart';
+import 'package:html/parser.dart' as html;
+
+import 'try_parse.dart';
+
+final pluginCodeName = "com.hedon_haven.tester_external_dart";
+
+class HttpResponse {
+  final int statusCode;
+  final Uint8List bodyBytes;
+  final String body;
+  final Map<String, String> headers;
+
+  const HttpResponse({
+    required this.statusCode,
+    required this.bodyBytes,
+    required this.body,
+    required this.headers,
+  });
+
+  Map<String, dynamic> toJson() => toMap();
+
+  Map<String, dynamic> toMap() {
+    return {
+      "statusCode": statusCode,
+      "bodyBytes": bodyBytes.toList(),
+      "body": body,
+      "headers": headers,
+    };
+  }
+
+  static HttpResponse fromMap(Map<String, dynamic> map) {
+    return HttpResponse(
+      statusCode: map["statusCode"],
+      bodyBytes: Uint8List.fromList(map["bodyBytes"]),
+      body: map["body"],
+      headers: (map["headers"] as Map).cast<String, String>(),
+    );
+  }
+}
+
+enum ContentType {
+  homePage,
+  searchResultsPage,
+  videoPage,
+  authorPage,
+  unknown;
+
+  static ContentType fromString(String value) {
+    switch (value) {
+      case 'homePage':
+        return homePage;
+      case 'searchResultsPage':
+        return searchResultsPage;
+      case 'videoPage':
+        return videoPage;
+      case 'authorPage':
+        return authorPage;
+      default:
+        return unknown;
+    }
+  }
+
+  String toJson() => name;
+}
+
+class ExternalLinkParsed {
+  final ContentType type;
+  final String? iD;
+  final UniversalSearchRequest? searchRequest;
+  final int? pageCount;
+
+  const ExternalLinkParsed({
+    required this.type,
+    this.iD,
+    this.searchRequest,
+    this.pageCount,
+  });
+
+  Map<String, dynamic> toJson() => toMap();
+
+  Map<String, dynamic> toMap() {
+    return {
+      "type": type.toJson(),
+      "iD": iD,
+      "searchRequest": searchRequest?.toMap(),
+      "pageCount": pageCount,
+    };
+  }
+}
+
+class UniversalSearchRequest {
+  final String searchString;
+  final String sortingType;
+  final String dateRange;
+  final int minQuality;
+  final int maxQuality;
+  final int minDuration;
+  final int maxDuration;
+  final int minFramesPerSecond;
+  final int maxFramesPerSecond;
+  final bool virtualReality;
+  final List<String> categoriesInclude;
+  final List<String> categoriesExclude;
+  final List<String> keywordsInclude;
+  final List<String> keywordsExclude;
+
+  /// Whether this search result is coming from the database search history or not
+  final bool historySearch;
+
+  // TODO: Add verified, professional and unverified
+
+  // make providing any values optional, but also have defaults set for all of them
+  UniversalSearchRequest({
+    String? searchString,
+    String? sortingType,
+    String? dateRange,
+    int? minQuality,
+    int? maxQuality,
+    int? minDuration,
+    int? maxDuration,
+    int? minFramesPerSecond,
+    int? maxFramesPerSecond,
+    bool? virtualReality,
+    List<String>? categoriesInclude,
+    List<String>? categoriesExclude,
+    List<String>? keywordsInclude,
+    List<String>? keywordsExclude,
+    bool? historySearch,
+  }) : searchString = searchString ?? "",
+       sortingType = sortingType ?? "Relevance",
+       dateRange = dateRange ?? "All time",
+       minQuality = minQuality ?? 0,
+       maxQuality = maxQuality ?? 2160,
+       minDuration = minDuration ?? 0,
+       maxDuration = maxDuration ?? 3600,
+       minFramesPerSecond = minFramesPerSecond ?? 0,
+       maxFramesPerSecond = maxFramesPerSecond ?? 60,
+       virtualReality = virtualReality ?? false,
+       categoriesInclude = categoriesInclude ?? [],
+       categoriesExclude = categoriesExclude ?? [],
+       keywordsInclude = keywordsInclude ?? [],
+       keywordsExclude = keywordsExclude ?? [],
+       historySearch = historySearch ?? false;
+
+  // Deep copy
+  UniversalSearchRequest copyWith({
+    String? searchString,
+    String? sortingType,
+    String? dateRange,
+    int? minQuality,
+    int? maxQuality,
+    int? minDuration,
+    int? maxDuration,
+    int? minFramesPerSecond,
+    int? maxFramesPerSecond,
+    bool? virtualReality,
+    List<String>? categoriesInclude,
+    List<String>? categoriesExclude,
+    List<String>? keywordsInclude,
+    List<String>? keywordsExclude,
+    bool? historySearch,
+  }) {
+    return UniversalSearchRequest(
+      searchString: searchString ?? this.searchString,
+      sortingType: sortingType ?? this.sortingType,
+      dateRange: dateRange ?? this.dateRange,
+      minQuality: minQuality ?? this.minQuality,
+      maxQuality: maxQuality ?? this.maxQuality,
+      minDuration: minDuration ?? this.minDuration,
+      maxDuration: maxDuration ?? this.maxDuration,
+      minFramesPerSecond: minFramesPerSecond ?? this.minFramesPerSecond,
+      maxFramesPerSecond: maxFramesPerSecond ?? this.maxFramesPerSecond,
+      virtualReality: virtualReality ?? this.virtualReality,
+      categoriesInclude: categoriesInclude ?? this.categoriesInclude,
+      categoriesExclude: categoriesExclude ?? this.categoriesExclude,
+      keywordsInclude: keywordsInclude ?? this.keywordsInclude,
+      keywordsExclude: keywordsExclude ?? this.keywordsExclude,
+      historySearch: historySearch ?? this.historySearch,
+    );
+  }
+
+  Map<String, dynamic> toJson() => toMap();
+
+  Map<String, dynamic> toMap() {
+    return {
+      "searchString": searchString,
+      "sortingType": sortingType,
+      "dateRange": dateRange,
+      "minQuality": minQuality,
+      "maxQuality": maxQuality,
+      "minDuration": minDuration,
+      "maxDuration": maxDuration,
+      "minFramesPerSecond": minFramesPerSecond,
+      "maxFramesPerSecond": maxFramesPerSecond,
+      "virtualReality": virtualReality,
+      "categoriesInclude": categoriesInclude,
+      "categoriesExclude": categoriesExclude,
+      "keywordsInclude": keywordsInclude,
+      "keywordsExclude": keywordsExclude,
+      "historySearch": historySearch,
+    };
+  }
+
+  static UniversalSearchRequest fromMap(Map<String, dynamic> map) {
+    return UniversalSearchRequest(
+      searchString: map["searchString"],
+      sortingType: map["sortingType"],
+      dateRange: map["dateRange"],
+      minQuality: map["minQuality"],
+      maxQuality: map["maxQuality"],
+      minDuration: map["minDuration"],
+      maxDuration: map["maxDuration"],
+      minFramesPerSecond: map["minFramesPerSecond"],
+      maxFramesPerSecond: map["maxFramesPerSecond"],
+      virtualReality: map["virtualReality"],
+      categoriesInclude: (map["categoriesInclude"] as List?)?.cast<String>(),
+      categoriesExclude: (map["categoriesExclude"] as List?)?.cast<String>(),
+      keywordsInclude: (map["keywordsInclude"] as List?)?.cast<String>(),
+      keywordsExclude: (map["keywordsExclude"] as List?)?.cast<String>(),
+      historySearch: map["historySearch"],
+    );
+  }
+}
+
+/// To make working with search results from different websites easier, every plugin must convert their results to this format
+class UniversalVideoPreview {
+  /// this id is later used to retrieve video metadata by the videoplayer
+  final String iD;
+  final String title;
+
+  // NetworkImage wants Strings instead of Uri
+  // TODO: Convert to record ({String thumbnail, Map<String, String>? httpHeaders})
+  final String? thumbnail;
+  final Map<String, String>? thumbnailHttpHeaders;
+
+  /// Only used for videos from storage. Use thumbnail for network images instead
+  final Uint8List thumbnailBinary;
+
+  // TODO: Convert to record ({Uri previewVideo, Map<String, String>? httpHeaders})
+  final Uri? previewVideo;
+  final Map<String, String>? previewVideoHttpHeaders;
+  final Duration? duration;
+  final int? viewsTotal;
+
+  /// int from 0 to 100 representing the percentage of positive ratings
+  final int? ratingsPositivePercent;
+  final int? maxQuality;
+  final bool virtualReality;
+  final String? authorName;
+  final String? authorID;
+  final bool verifiedAuthor;
+
+  // Only needed for watch history
+  final DateTime? lastWatched;
+  final DateTime? addedOn;
+
+  /// If not null, indicates issue with the scrape
+  /// If starts with "Error", gets displayed differently in scraping_report
+  /// The message itself is shown to the user in the scraping_report and is sent in bug reports
+  String? scrapeFailMessage;
+
+  UniversalVideoPreview({
+    required this.iD,
+    required this.title,
+    this.thumbnail,
+    this.thumbnailHttpHeaders,
+    Uint8List? thumbnailBinary,
+    this.previewVideo,
+    this.previewVideoHttpHeaders,
+    this.duration,
+    this.viewsTotal,
+    this.ratingsPositivePercent,
+
+    /// Use - for lower than, e.g. -720 -> lower than 720p
+    this.maxQuality,
+    bool? virtualReality,
+    this.authorName,
+
+    /// AuthorID that can be passed to getAuthorPage
+    this.authorID,
+    bool? verifiedAuthor,
+
+    /// Optional, only needed for watch history
+    this.lastWatched,
+    this.addedOn,
+    this.scrapeFailMessage,
+  }) : verifiedAuthor = verifiedAuthor ?? false,
+       virtualReality = virtualReality ?? false,
+       thumbnailBinary = thumbnailBinary ?? Uint8List(0);
+
+  Map<String, dynamic> toJson() => toMap();
+
+  Map<String, dynamic> toMap() {
+    return {
+      "iD": iD,
+      "title": title,
+      "plugin": pluginCodeName,
+      "thumbnail": thumbnail,
+      "thumbnailHttpHeaders": thumbnailHttpHeaders,
+      "thumbnailBinary": thumbnailBinary.toList(),
+      "previewVideo": previewVideo?.toString(),
+      "previewVideoHttpHeaders": previewVideoHttpHeaders,
+      "duration": duration?.inSeconds,
+      "viewsTotal": viewsTotal,
+      "ratingsPositivePercent": ratingsPositivePercent,
+      "maxQuality": maxQuality,
+      "virtualReality": virtualReality,
+      "authorName": authorName,
+      "authorID": authorID,
+      "verifiedAuthor": verifiedAuthor,
+      "lastWatched": convertToUnixTime(lastWatched),
+      "addedOn": convertToUnixTime(addedOn),
+      "scrapeFailMessage": scrapeFailMessage,
+    };
+  }
+
+  static UniversalVideoPreview fromMap(Map<String, dynamic> map) {
+    return UniversalVideoPreview(
+      iD: map["iD"],
+      title: map["title"],
+      thumbnail: map["thumbnail"],
+      thumbnailHttpHeaders: (map["thumbnailHttpHeaders"] as Map?)
+          ?.cast<String, String>(),
+      thumbnailBinary: tryParse(
+        () => Uint8List.fromList(map["thumbnailBinary"]),
+      ),
+      previewVideo: tryParse(() => Uri.parse(map["previewVideo"])),
+      previewVideoHttpHeaders: (map["previewVideoHttpHeaders"] as Map?)
+          ?.cast<String, String>(),
+      duration: tryParse(() => Duration(seconds: map["duration"])),
+      viewsTotal: map["viewsTotal"],
+      ratingsPositivePercent: map["ratingsPositivePercent"],
+      maxQuality: map["maxQuality"],
+      virtualReality: map["virtualReality"],
+      authorName: map["authorName"],
+      authorID: map["authorID"],
+      verifiedAuthor: map["verifiedAuthor"],
+      lastWatched: tryParseFromUnixTime(map["lastWatched"]),
+      addedOn: tryParseFromUnixTime(map["addedOn"]),
+      scrapeFailMessage: map["scrapeFailMessage"],
+    );
+  }
+}
+
+class UniversalVideoMetadata {
+  final String iD;
+  final Map<int, Uri> m3u8Uris;
+  final Map<String, String>? playbackHttpHeaders;
+  final String title;
+
+  /// The UniversalVideoPreview of this video metadata
+  /// Converting a uvm to a uvp is impossible but a uvp is required for the
+  /// favorite-button to work on the video_screen
+  final UniversalVideoPreview universalVideoPreview;
+
+  /// TODO: Use a single record variable for all author attributes
+  final String authorID;
+  final String? authorName;
+  final int? authorSubscriberCount;
+  final String? authorAvatar;
+  final List<({String name, String authorID, String? avatar})>? actors;
+  final String? description;
+  final int? viewsTotal;
+  final List<String>? tags;
+  final List<String>? categories;
+  final DateTime? uploadDate;
+  final int? ratingsPositiveTotal;
+  final int? ratingsNegativeTotal;
+  final int? ratingsTotal;
+  final bool virtualReality;
+  final Map<Duration, String>? chapters;
+
+  /// The getPreviewThumbnails functions might require the html. To avoid redownloading it, it will be directly passed to the function
+  final Document rawHtml;
+
+  /// If not null, indicates issue with the scrape
+  /// If starts with "Error", gets displayed differently in scraping_report
+  /// The message itself is shown to the user in the scraping_report and is sent in bug reports
+  String? scrapeFailMessage;
+
+  UniversalVideoMetadata({
+    required this.iD,
+    required this.m3u8Uris,
+    this.playbackHttpHeaders,
+    required this.title,
+    required this.universalVideoPreview,
+    required this.authorID,
+    this.authorName,
+    this.authorSubscriberCount,
+    this.authorAvatar,
+    this.actors,
+    this.description,
+    this.viewsTotal,
+    this.tags,
+    this.categories,
+    this.uploadDate,
+    this.ratingsPositiveTotal,
+    this.ratingsNegativeTotal,
+    this.ratingsTotal,
+    bool? virtualReality,
+    this.chapters,
+    Document? rawHtml,
+    this.scrapeFailMessage,
+  }) : virtualReality = virtualReality ?? false,
+       rawHtml = rawHtml ?? Document();
+
+  Map<String, dynamic> toJson() => toMap();
+
+  Map<String, dynamic> toMap() {
+    return {
+      "iD": iD,
+      "m3u8Uris": m3u8Uris.map((k, v) => MapEntry(k.toString(), v.toString())),
+      "playbackHttpHeaders": playbackHttpHeaders,
+      "title": title,
+      "plugin": pluginCodeName,
+      "universalVideoPreview": universalVideoPreview.toMap(),
+      "authorID": authorID,
+      "authorName": authorName,
+      "authorSubscriberCount": authorSubscriberCount,
+      "authorAvatar": authorAvatar,
+      "actors": actors
+          ?.map(
+            (e) => {"name": e.name, "authorID": e.authorID, "avatar": e.avatar},
+          )
+          .toList(),
+      "description": description,
+      "viewsTotal": viewsTotal,
+      "tags": tags,
+      "categories": categories,
+      "uploadDate": convertToUnixTime(uploadDate),
+      "ratingsPositiveTotal": ratingsPositiveTotal,
+      "ratingsNegativeTotal": ratingsNegativeTotal,
+      "ratingsTotal": ratingsTotal,
+      "virtualReality": virtualReality,
+      "chapters": chapters?.map((k, v) => MapEntry(k.inSeconds.toString(), v)),
+      "rawHtml": rawHtml.outerHtml,
+      "scrapeFailMessage": scrapeFailMessage,
+    };
+  }
+
+  static UniversalVideoMetadata fromMap(Map<String, dynamic> map) {
+    return UniversalVideoMetadata(
+      iD: map["iD"],
+      m3u8Uris: (map["m3u8Uris"] as Map).map(
+        (k, v) => MapEntry(int.parse(k), Uri.parse(v)),
+      ),
+      playbackHttpHeaders: (map["playbackHttpHeaders"] as Map?)
+          ?.cast<String, String>(),
+      title: map["title"],
+      universalVideoPreview: UniversalVideoPreview.fromMap(
+        Map<String, dynamic>.from(map["universalVideoPreview"] as Map),
+      ),
+      authorID: map["authorID"],
+      authorName: map["authorName"],
+      authorSubscriberCount: map["authorSubscriberCount"],
+      authorAvatar: map["authorAvatar"],
+      actors: (map["actors"] as List?)
+          ?.map(
+            (e) => (
+              name: e["name"] as String,
+              authorID: e["authorID"] as String,
+              avatar: e["avatar"] as String?,
+            ),
+          )
+          .toList(),
+      description: map["description"],
+      viewsTotal: map["viewsTotal"],
+      tags: (map["tags"] as List?)?.cast<String>(),
+      categories: (map["categories"] as List?)?.cast<String>(),
+      uploadDate: tryParseFromUnixTime(map["uploadDate"]),
+      ratingsPositiveTotal: map["ratingsPositiveTotal"],
+      ratingsNegativeTotal: map["ratingsNegativeTotal"],
+      ratingsTotal: map["ratingsTotal"],
+      virtualReality: map["virtualReality"] as bool? ?? false,
+      chapters: (map["chapters"] as Map?)?.map(
+        (k, v) => MapEntry(Duration(seconds: int.parse(k)), v as String),
+      ),
+      rawHtml: html.parse(map["rawHtml"]),
+      scrapeFailMessage: map["scrapeFailMessage"],
+    );
+  }
+}
+
+class UniversalAuthorPage {
+  /// The author ID
+  final String iD;
+  final String name;
+
+  // NetworkImage wants Strings instead of Uri
+  final String? avatar;
+  final String? banner;
+  final List<String>? aliases;
+  final String? description;
+  final Map<String, String>? advancedDescription;
+  final Map<String, Uri>? externalLinks;
+  final int? viewsTotal;
+  final int? videosTotal;
+  final int? subscribers;
+  final int? rank;
+
+  /// For testing/logging
+  final Document rawHtml;
+
+  /// If not null, indicates issue with the scrape
+  /// If starts with "Error", gets displayed differently in scraping_report
+  /// The message itself is shown to the user in the scraping_report and is sent in bug reports
+  String? scrapeFailMessage;
+
+  UniversalAuthorPage({
+    required this.iD,
+    required this.name,
+    this.avatar,
+    this.banner,
+    this.aliases,
+    this.description,
+    this.advancedDescription,
+    this.externalLinks,
+    this.viewsTotal,
+    this.videosTotal,
+    this.subscribers,
+    this.rank,
+    required this.rawHtml,
+    this.scrapeFailMessage,
+  });
+
+  Map<String, dynamic> toJson() => toMap();
+
+  Map<String, dynamic> toMap() {
+    return {
+      "iD": iD,
+      "name": name,
+      "plugin": pluginCodeName,
+      "avatar": avatar,
+      "banner": banner,
+      "aliases": aliases,
+      "description": description,
+      "advancedDescription": advancedDescription,
+      "externalLinks": externalLinks?.map((k, v) => MapEntry(k, v.toString())),
+      "viewsTotal": viewsTotal,
+      "videosTotal": videosTotal,
+      "subscribers": subscribers,
+      "rank": rank,
+      "rawHtml": rawHtml.outerHtml,
+      "scrapeFailMessage": scrapeFailMessage,
+    };
+  }
+
+  static UniversalAuthorPage fromMap(Map<String, dynamic> map) {
+    return UniversalAuthorPage(
+      iD: map["iD"],
+      name: map["name"],
+      avatar: map["avatar"],
+      banner: map["banner"],
+      aliases: (map["aliases"] as List?)?.cast<String>(),
+      description: map["description"],
+      advancedDescription: (map["advancedDescription"] as Map?)
+          ?.cast<String, String>(),
+      externalLinks: (map["externalLinks"] as Map?)?.map(
+        (k, v) => MapEntry(k as String, Uri.parse(v)),
+      ),
+      viewsTotal: map["viewsTotal"],
+      videosTotal: map["videosTotal"],
+      subscribers: map["subscribers"],
+      rank: map["rank"],
+      rawHtml: html.parse(map["rawHtml"]),
+      scrapeFailMessage: map["scrapeFailMessage"],
+    );
+  }
+}
+
+class UniversalComment {
+  /// Unique Identifier for this exact comment. Use in conjunction with videoID
+  final String iD;
+  final String videoID;
+  final String author;
+  final String commentBody;
+
+  /// Whether the comment was hidden by the platform / creator
+  final bool hidden;
+
+  final String? authorID;
+
+  /// Two letter country code
+  final String? countryID;
+
+  /// Sexual orientation of the profile
+  final String? orientation;
+
+  // NetworkImage wants Strings instead of Uri
+  final String? profilePicture;
+  final int? ratingsPositiveTotal;
+  final int? ratingsNegativeTotal;
+  final int? ratingsTotal;
+  final DateTime? commentDate;
+
+  // Sometimes the reply comments are scraped/loaded after the main comment
+  late List<UniversalComment>? replyComments;
+
+  /// If not null, indicates issue with the scrape
+  /// If starts with "Error", gets displayed differently in scraping_report
+  /// The message itself is shown to the user in the scraping_report and is sent in bug reports
+  String? scrapeFailMessage;
+
+  UniversalComment({
+    required this.iD,
+    required this.videoID,
+    required this.author,
+    required this.commentBody,
+    required this.hidden,
+    this.authorID,
+    this.countryID,
+    this.orientation,
+    this.profilePicture,
+    this.ratingsPositiveTotal,
+    this.ratingsNegativeTotal,
+    this.ratingsTotal,
+    this.commentDate,
+    this.replyComments,
+    this.scrapeFailMessage,
+  });
+
+  Map<String, dynamic> toJson() => toMap();
+
+  Map<String, dynamic> toMap() {
+    return {
+      "iD": iD,
+      "videoID": videoID,
+      "author": author,
+      "commentBody": commentBody,
+      "hidden": hidden,
+      "plugin": pluginCodeName,
+      "authorID": authorID,
+      "countryID": countryID,
+      "orientation": orientation,
+      "profilePicture": profilePicture,
+      "ratingsPositiveTotal": ratingsPositiveTotal,
+      "ratingsNegativeTotal": ratingsNegativeTotal,
+      "ratingsTotal": ratingsTotal,
+      "commentDate": convertToUnixTime(commentDate),
+      "replyComments": replyComments
+          ?.map((comment) => comment.toMap())
+          .toList(),
+      "scrapeFailMessage": scrapeFailMessage,
+    };
+  }
+
+  static UniversalComment fromMap(Map<String, dynamic> map) {
+    return UniversalComment(
+      iD: map["iD"],
+      videoID: map["videoID"],
+      author: map["author"],
+      commentBody: map["commentBody"],
+      hidden: map["hidden"] as bool? ?? false,
+      authorID: map["authorID"],
+      countryID: map["countryID"],
+      orientation: map["orientation"],
+      profilePicture: map["profilePicture"],
+      ratingsPositiveTotal: map["ratingsPositiveTotal"],
+      ratingsNegativeTotal: map["ratingsNegativeTotal"],
+      ratingsTotal: map["ratingsTotal"],
+      commentDate: tryParseFromUnixTime(map["commentDate"]),
+      replyComments: (map["replyComments"] as List?)
+          ?.map(
+            (c) =>
+                UniversalComment.fromMap(Map<String, dynamic>.from(c as Map)),
+          )
+          .toList(),
+      scrapeFailMessage: map["scrapeFailMessage"],
+    );
+  }
+}
