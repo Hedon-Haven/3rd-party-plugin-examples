@@ -158,10 +158,10 @@ void main() {
 }
 
 // Helper function that makes sure failed dart futures are directly surfaced
-JSPromise _asJsPromise(Future Function() fn) {
-  return Future(() async {
+JSPromise _asJsPromise(Future<dynamic> Function() fn) {
+  return Future<JSAny?>(() async {
     try {
-      return await fn();
+      return await fn() as JSAny?;
     } catch (e, st) {
       final ctor = globalContext["Error"] as JSFunction;
       throw ctor.callAsConstructor<JSObject>("$e\n$st".toJS);
