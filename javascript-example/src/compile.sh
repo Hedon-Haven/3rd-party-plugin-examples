@@ -16,7 +16,7 @@ echo "Combining into bundle.js..."
 } >> bundle.js
 
 echo "Compressing into plugin.zip..."
-rm plugin.zip
+rm plugin.zip || true
 # Set timestamps to 0 unix time for all files to achieve reproducible zip
 touch -d "@0" ./plugin.yaml ./bundle.js
 find ./src -exec touch -d "@0" {} \;
