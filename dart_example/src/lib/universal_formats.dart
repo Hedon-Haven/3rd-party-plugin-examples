@@ -1,4 +1,4 @@
-/// Trimmed/slightly simplified version of universal_formats from the main Hedon Haven repo
+/// Trimmed/slightly simplified version of universal_formats.dart from the main Hedon Haven repo
 library;
 
 import 'dart:typed_data';
