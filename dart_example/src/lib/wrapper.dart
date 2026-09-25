@@ -14,7 +14,7 @@ extension type JsHttpResponse(JSObject _) implements JSObject {
   external JSObject get headers;
 }
 
-// Call functions from bridge-functions.js
+// Call functions from bridge_functions.js
 Future<HttpResponse> httpRequest(
   String url, [
   Map<String, String> headers = const {},

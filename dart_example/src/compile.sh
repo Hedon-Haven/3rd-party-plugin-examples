@@ -11,7 +11,7 @@ echo "Combining into bundle.js..."
 : > bundle.js
 {
   echo "// ==== START: bridge-functions.js ===="
-  cat src/lib/bridge-functions.js
+  cat src/lib/bridge_functions.js
   echo -e "\n// ==== END: bridge-functions.js ====\n"
 
   echo "// ==== START: compiled-dart.js ===="
