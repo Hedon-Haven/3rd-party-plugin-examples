@@ -6,6 +6,7 @@ environment:
   sdk: ^3.11.3
 
 dependencies:
+  html: ^0.15.7
 
 dev_dependencies:
   build_runner: ^2.4.15
