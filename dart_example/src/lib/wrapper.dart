@@ -67,75 +67,104 @@ void main() {
   // Every Universal* value crossing this boundary is converted right here:
   // fromMap() on the way in, toMap() on the way out. main.dart never touches
   // a Map for anything that has a Universal* type.
-  globalContext["init"] = (() => init().toJS).toJS;
-  globalContext["runFunctionalityTest"] =
-      (() => runFunctionalityTest().then((r) => r.toJS).toJS).toJS;
-  globalContext["parseExternalLink"] = ((JSString uri) => parseExternalLink(
-    uri.toDart,
-  ).then((r) => r.toMap().jsify()!).toJS).toJS;
-  globalContext["getHomePage"] = ((JSNumber page) => getHomePage(
-    page.toDartDouble.toInt(),
-  ).then((r) => r.map((e) => e.toMap()).toList().jsify()!).toJS).toJS;
+  globalContext["init"] = (() => _asJsPromise(() => init())).toJS;
+  globalContext["runFunctionalityTest"] = (() => _asJsPromise(
+    () => runFunctionalityTest().then((r) => r.toJS),
+  )).toJS;
+  globalContext["parseExternalLink"] = ((JSString uri) => _asJsPromise(
+    () => parseExternalLink(uri.toDart).then((r) => r.toMap().jsify()!),
+  )).toJS;
+  globalContext["getHomePage"] = ((JSNumber page) => _asJsPromise(
+    () => getHomePage(
+      page.toDartDouble.toInt(),
+    ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
+  )).toJS;
   globalContext["downloadThumbnail"] =
-      ((JSString uri, JSAny? headers) => downloadThumbnail(
-        uri.toDart,
-        (headers?.dartify() as Map<Object?, Object?>?)
-                ?.cast<String, String>() ??
-            const {},
-      ).then((r) => r.toJS).toJS).toJS;
-  globalContext["getSearchSuggestions"] = ((JSString s) => getSearchSuggestions(
-    s.toDart,
-  ).then((r) => r.jsify()!).toJS).toJS;
+      ((JSString uri, JSAny? headers) => _asJsPromise(
+        () => downloadThumbnail(
+          uri.toDart,
+          (headers?.dartify() as Map<Object?, Object?>?)
+                  ?.cast<String, String>() ??
+              const {},
+        ).then((r) => r.toJS),
+      )).toJS;
+  globalContext["getSearchSuggestions"] = ((JSString s) => _asJsPromise(
+    () => getSearchSuggestions(s.toDart).then((r) => r.jsify()!),
+  )).toJS;
   globalContext["getSearchResults"] =
-      ((JSAny? req, JSNumber page) => getSearchResults(
-        UniversalSearchRequest.fromMap(
-          Map<String, dynamic>.from(req.dartify() as Map),
-        ),
-        page.toDartDouble.toInt(),
-      ).then((r) => r.map((e) => e.toMap()).toList().jsify()!).toJS).toJS;
-  globalContext["getVideoUriFromID"] = ((JSString id) => getVideoUriFromID(
-    id.toDart,
-  ).toJS).toJS;
+      ((JSAny? req, JSNumber page) => _asJsPromise(
+        () => getSearchResults(
+          UniversalSearchRequest.fromMap(
+            Map<String, dynamic>.from(req.dartify() as Map),
+          ),
+          page.toDartDouble.toInt(),
+        ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
+      )).toJS;
+  globalContext["getVideoUriFromID"] = ((JSString id) => _asJsPromise(
+    () => Future.value(getVideoUriFromID(id.toDart).toJS),
+  )).toJS;
   globalContext["getVideoMetadata"] =
-      ((JSString id, JSAny? uvp) => getVideoMetadata(
-        id.toDart,
-        UniversalVideoPreview.fromMap(
-          Map<String, dynamic>.from(uvp.dartify() as Map),
-        ),
-      ).then((r) => r.toMap().jsify()!).toJS).toJS;
+      ((JSString id, JSAny? uvp) => _asJsPromise(
+        () => getVideoMetadata(
+          id.toDart,
+          UniversalVideoPreview.fromMap(
+            Map<String, dynamic>.from(uvp.dartify() as Map),
+          ),
+        ).then((r) => r.toMap().jsify()!),
+      )).toJS;
   globalContext["getProgressThumbnails"] =
-      ((JSString id, JSString raw) => getProgressThumbnails(
-        id.toDart,
-        raw.toDart,
-      ).then((r) => r.jsify()!).toJS).toJS;
-  globalContext["cancelGetProgressThumbnails"] =
-      (() => cancelGetProgressThumbnails()).toJS;
+      ((JSString id, JSString raw) => _asJsPromise(
+        () => getProgressThumbnails(
+          id.toDart,
+          raw.toDart,
+        ).then((r) => r.jsify()!),
+      )).toJS;
+  //globalContext["cancelGetProgressThumbnails"] = (() => _asJsPromise(
+  //  () => Future.value(cancelGetProgressThumbnails()),
+  //)).toJS;
   globalContext["getCommentUriFromID"] =
-      ((JSString cid, JSString vid) => getCommentUriFromID(
-        cid.toDart,
-        vid.toDart,
-      ).toJS).toJS;
+      ((JSString cid, JSString vid) => _asJsPromise(
+        () => Future.value(getCommentUriFromID(cid.toDart, vid.toDart).toJS),
+      )).toJS;
   globalContext["getComments"] =
-      ((JSString vid, JSString raw, JSNumber page) => getComments(
-        vid.toDart,
-        raw.toDart,
-        page.toDartDouble.toInt(),
-      ).then((r) => r.map((e) => e.toMap()).toList().jsify()!).toJS).toJS;
+      ((JSString vid, JSString raw, JSNumber page) => _asJsPromise(
+        () => getComments(
+          vid.toDart,
+          raw.toDart,
+          page.toDartDouble.toInt(),
+        ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
+      )).toJS;
   globalContext["getVideoSuggestions"] =
-      ((JSString vid, JSString raw, JSNumber page) => getVideoSuggestions(
-        vid.toDart,
-        raw.toDart,
-        page.toDartDouble.toInt(),
-      ).then((r) => r.map((e) => e.toMap()).toList().jsify()!).toJS).toJS;
-  globalContext["getAuthorUriFromID"] = ((JSString id) => getAuthorUriFromID(
-    id.toDart,
-  ).toJS).toJS;
-  globalContext["getAuthorPage"] = ((JSString id) => getAuthorPage(
-    id.toDart,
-  ).then((r) => r.toMap().jsify()!).toJS).toJS;
+      ((JSString vid, JSString raw, JSNumber page) => _asJsPromise(
+        () => getVideoSuggestions(
+          vid.toDart,
+          raw.toDart,
+          page.toDartDouble.toInt(),
+        ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
+      )).toJS;
+  globalContext["getAuthorUriFromID"] = ((JSString id) => _asJsPromise(
+    () => Future.value(getAuthorUriFromID(id.toDart).toJS),
+  )).toJS;
+  globalContext["getAuthorPage"] = ((JSString id) => _asJsPromise(
+    () => getAuthorPage(id.toDart).then((r) => r.toMap().jsify()!),
+  )).toJS;
   globalContext["getAuthorVideos"] =
-      ((JSString id, JSNumber page) => getAuthorVideos(
-        id.toDart,
-        page.toDartDouble.toInt(),
-      ).then((r) => r.map((e) => e.toMap()).toList().jsify()!).toJS).toJS;
+      ((JSString id, JSNumber page) => _asJsPromise(
+        () => getAuthorVideos(
+          id.toDart,
+          page.toDartDouble.toInt(),
+        ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
+      )).toJS;
+}
+
+// Helper function that makes sure failed dart futures are directly surfaced
+JSPromise _asJsPromise(Future Function() fn) {
+  return Future(() async {
+    try {
+      return await fn();
+    } catch (e, st) {
+      final ctor = globalContext["Error"] as JSFunction;
+      throw ctor.callAsConstructor<JSObject>("$e\n$st".toJS);
+    }
+  }).toJS;
 }
