@@ -10,6 +10,24 @@ import 'try_parse.dart';
 
 final pluginCodeName = "com.example.tester_external_dart";
 
+class ScrapingException implements Exception {
+  final String message;
+  final bool isCritical;
+
+  ScrapingException([
+    this.message = "unknown scraping exception",
+    this.isCritical = false,
+  ]);
+
+  @override
+  String toString() => message;
+
+  Map<String, dynamic> toMap() => {"message": message, "isCritical": isCritical};
+
+  static ScrapingException fromMap(Map<String, dynamic> map) =>
+      ScrapingException(map["message"], map["isCritical"] == true);
+}
+
 class HttpResponse {
   final int statusCode;
   final Uint8List bodyBytes;
@@ -264,9 +282,8 @@ class UniversalVideoPreview {
   final Set<String> unavailableFields;
 
   /// If not null, indicates issue with the scrape
-  /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
-  String? scrapeFailMessage;
+  ScrapingException? scrapeFailException;
 
   UniversalVideoPreview({
     required this.iD,
@@ -292,8 +309,8 @@ class UniversalVideoPreview {
     /// Optional, only needed for watch history
     this.lastWatched,
     this.addedOn,
-    this.scrapeFailMessage,
     required this.unavailableFields,
+    this.scrapeFailException,
   }) : verifiedAuthor = verifiedAuthor ?? false,
        virtualReality = virtualReality ?? false,
        thumbnailBinary = thumbnailBinary ?? Uint8List(0);
@@ -320,8 +337,8 @@ class UniversalVideoPreview {
       "verifiedAuthor": verifiedAuthor,
       "lastWatched": convertToUnixTime(lastWatched),
       "addedOn": convertToUnixTime(addedOn),
-      "scrapeFailMessage": scrapeFailMessage,
       "unavailableFields": unavailableFields.toList(),
+      "scrapeFailException": scrapeFailException?.toMap(),
     };
   }
 
@@ -348,8 +365,12 @@ class UniversalVideoPreview {
       verifiedAuthor: map["verifiedAuthor"],
       lastWatched: tryParseFromUnixTime(map["lastWatched"]),
       addedOn: tryParseFromUnixTime(map["addedOn"]),
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: (map["unavailableFields"] as List)
+          .cast<String>()
+          .toSet(),
+      scrapeFailException: tryParse(
+        () => ScrapingException.fromMap(map["scrapeFailException"]),
+      ),
     );
   }
 }
@@ -389,9 +410,8 @@ class UniversalVideoMetadata {
   final Set<String> unavailableFields;
 
   /// If not null, indicates issue with the scrape
-  /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
-  String? scrapeFailMessage;
+  ScrapingException? scrapeFailException;
 
   UniversalVideoMetadata({
     required this.iD,
@@ -415,8 +435,8 @@ class UniversalVideoMetadata {
     bool? virtualReality,
     this.chapters,
     required this.rawHtml,
-    this.scrapeFailMessage,
     required this.unavailableFields,
+    this.scrapeFailException,
   }) : virtualReality = virtualReality ?? false;
 
   Map<String, dynamic> toJson() => toMap();
@@ -449,8 +469,8 @@ class UniversalVideoMetadata {
       "virtualReality": virtualReality,
       "chapters": chapters?.map((k, v) => MapEntry(k.inSeconds.toString(), v)),
       "rawHtml": rawHtml.outerHtml,
-      "scrapeFailMessage": scrapeFailMessage,
       "unavailableFields": unavailableFields.toList(),
+      "scrapeFailException": scrapeFailException?.toMap(),
     };
   }
 
@@ -492,10 +512,12 @@ class UniversalVideoMetadata {
         (k, v) => MapEntry(Duration(seconds: int.parse(k)), v as String),
       ),
       rawHtml: html.parse(map["rawHtml"]),
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: (map["unavailableFields"] as List)
           .cast<String>()
           .toSet(),
+      scrapeFailException: tryParse(
+        () => ScrapingException.fromMap(map["scrapeFailException"]),
+      ),
     );
   }
 }
@@ -524,9 +546,8 @@ class UniversalAuthorPage {
   final Set<String> unavailableFields;
 
   /// If not null, indicates issue with the scrape
-  /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
-  String? scrapeFailMessage;
+  ScrapingException? scrapeFailException;
 
   UniversalAuthorPage({
     required this.iD,
@@ -542,8 +563,8 @@ class UniversalAuthorPage {
     this.subscribers,
     this.rank,
     required this.rawHtml,
-    this.scrapeFailMessage,
     required this.unavailableFields,
+    this.scrapeFailException,
   });
 
   Map<String, dynamic> toJson() => toMap();
@@ -564,8 +585,8 @@ class UniversalAuthorPage {
       "subscribers": subscribers,
       "rank": rank,
       "rawHtml": rawHtml.outerHtml,
-      "scrapeFailMessage": scrapeFailMessage,
       "unavailableFields": unavailableFields.toList(),
+      "scrapeFailException": scrapeFailException?.toMap(),
     };
   }
 
@@ -587,10 +608,12 @@ class UniversalAuthorPage {
       subscribers: map["subscribers"],
       rank: map["rank"],
       rawHtml: html.parse(map["rawHtml"]),
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: (map["unavailableFields"] as List)
           .cast<String>()
           .toSet(),
+      scrapeFailException: tryParse(
+        () => ScrapingException.fromMap(map["scrapeFailException"]),
+      ),
     );
   }
 }
@@ -627,9 +650,8 @@ class UniversalComment {
   final Set<String> unavailableFields;
 
   /// If not null, indicates issue with the scrape
-  /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
-  String? scrapeFailMessage;
+  ScrapingException? scrapeFailException;
 
   UniversalComment({
     required this.iD,
@@ -646,8 +668,8 @@ class UniversalComment {
     this.ratingsTotal,
     this.commentDate,
     this.replyComments,
-    this.scrapeFailMessage,
     required this.unavailableFields,
+    this.scrapeFailException,
   });
 
   Map<String, dynamic> toJson() => toMap();
@@ -671,8 +693,8 @@ class UniversalComment {
       "replyComments": replyComments
           ?.map((comment) => comment.toMap())
           .toList(),
-      "scrapeFailMessage": scrapeFailMessage,
       "unavailableFields": unavailableFields.toList(),
+      "scrapeFailException": scrapeFailException?.toMap(),
     };
   }
 
@@ -697,10 +719,12 @@ class UniversalComment {
                 UniversalComment.fromMap(Map<String, dynamic>.from(c as Map)),
           )
           .toList(),
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: (map["unavailableFields"] as List)
           .cast<String>()
           .toSet(),
+      scrapeFailException: tryParse(
+        () => ScrapingException.fromMap(map["scrapeFailException"]),
+      ),
     );
   }
 }

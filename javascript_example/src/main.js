@@ -115,7 +115,7 @@ async function getHomePage(page) {
       verifiedAuthor: index % 2 === 0,
       unavailableFields: [],
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 !== 0 ? new ScrapingException("Test fail scrape message") : null,
     }),
   );
 }
@@ -171,7 +171,7 @@ async function getSearchResults(request, page) {
       verifiedAuthor: index % 2 === 0,
       unavailableFields: [],
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 !== 0 ? new ScrapingException("Test fail scrape message") : null,
     }),
   );
 }
@@ -193,7 +193,7 @@ async function getVideoMetadata(videoId, uvp) {
     universalVideoPreview: uvp,
     unavailableFields: [],
     // Change this to test partial metadata scrape fail
-    //scrapeFailMessage: "Test fail scrape message",
+    //scrapeFailException: new ScrapingException("Test fail scrape message"),
     authorID: `tester-author-${videoId}`,
     authorName: "Tester-author",
     authorSubscriberCount: 335433,
@@ -301,12 +301,12 @@ async function getComments(videoID, rawHtml, page) {
             replyComments: [],
             unavailableFields: [],
             // Make every 4th reply a fail
-            scrapeFailMessage: j % 4 !== 0 ? "Test fail scrape message" : null,
+            scrapeFailException: j % 4 !== 0 ? new ScrapingException("Test fail scrape message") : null,
           }),
         ) : [],
       unavailableFields: [],
       // Make every 4th comment a fail
-      scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 !== 0 ? new ScrapingException("Test fail scrape message") : null,
     }),
   );
 }
@@ -339,7 +339,7 @@ async function getVideoSuggestions(videoID, rawHtml, page) {
       verifiedAuthor: index % 2 === 0,
       unavailableFields: [],
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 !== 0 ? new ScrapingException("Test fail scrape message") : null,
     }),
   );
 }
@@ -407,7 +407,7 @@ async function getAuthorVideos(authorID, page) {
       verifiedAuthor: index % 2 === 0,
       unavailableFields: [],
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 !== 0 ? new ScrapingException("Test fail scrape message") : null,
     }),
   );
 }

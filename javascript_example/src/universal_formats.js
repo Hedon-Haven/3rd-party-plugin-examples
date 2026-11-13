@@ -2,6 +2,22 @@
 
 const pluginCodeName = "com.example.tester_external_js";
 
+class ScrapingException {
+  constructor(message = "unknown scraping exception", isCritical = false) {
+    this.message = message;
+    this.isCritical = isCritical;
+  }
+  toMap() {
+    return {
+      "message": this.message,
+      "isCritical": this.isCritical
+    };
+  }
+  static fromMap(map) {
+    return new ScrapingException(map["message"], map["isCritical"] === true);
+  }
+}
+
 function tryParseFromUnixTime(unixTimeInSeconds) {
   if (unixTimeInSeconds == null) return null;
   return new Date(unixTimeInSeconds * 1000);
@@ -141,8 +157,8 @@ class UniversalVideoPreview {
     this.verifiedAuthor = opts.verifiedAuthor ?? false;
     this.lastWatched = opts.lastWatched ?? null;
     this.addedOn = opts.addedOn ?? null;
-    this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
     this.unavailableFields = opts.unavailableFields;
+    this.scrapeFailException = opts.scrapeFailException ?? null;
   }
   toMap() {
     return {
@@ -164,8 +180,8 @@ class UniversalVideoPreview {
       "verifiedAuthor": this.verifiedAuthor,
       "lastWatched": convertToUnixTime(this.lastWatched),
       "addedOn": convertToUnixTime(this.addedOn),
-      "scrapeFailMessage": this.scrapeFailMessage,
       "unavailableFields": this.unavailableFields,
+      "scrapeFailException": this.scrapeFailException?.toMap() ?? null,
     };
   }
   static fromMap(map) {
@@ -189,8 +205,10 @@ class UniversalVideoPreview {
       verifiedAuthor: map["verifiedAuthor"],
       lastWatched: tryParseFromUnixTime(map["lastWatched"]),
       addedOn: tryParseFromUnixTime(map["addedOn"]),
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: map["unavailableFields"],
+      scrapeFailException: map["scrapeFailException"] == null ?
+        null :
+        ScrapingException.fromMap(map["scrapeFailException"]),
     });
   }
 }
@@ -218,8 +236,8 @@ class UniversalVideoMetadata {
     this.virtualReality = opts.virtualReality ?? false;
     this.chapters = opts.chapters ?? null; // { [seconds: string]: string }
     this.rawHtml = opts.rawHtml;
-    this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
     this.unavailableFields = opts.unavailableFields; // names of fields that can't be scraped from the provider
+    this.scrapeFailException = opts.scrapeFailException ?? null;
   }
   toMap() {
     return {
@@ -251,8 +269,8 @@ class UniversalVideoMetadata {
       "virtualReality": this.virtualReality,
       "chapters": this.chapters,
       "rawHtml": this.rawHtml,
-      "scrapeFailMessage": this.scrapeFailMessage,
       "unavailableFields": this.unavailableFields,
+      "scrapeFailException": this.scrapeFailException?.toMap() ?? null,
     };
   }
   static fromMap(map) {
@@ -278,8 +296,10 @@ class UniversalVideoMetadata {
       virtualReality: map["virtualReality"],
       chapters: map["chapters"],
       rawHtml: map["rawHtml"],
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: map["unavailableFields"],
+      scrapeFailException: map["scrapeFailException"] == null ?
+        null :
+        ScrapingException.fromMap(map["scrapeFailException"]),
     });
   }
 }
@@ -299,8 +319,8 @@ class UniversalAuthorPage {
     this.subscribers = opts.subscribers ?? null;
     this.rank = opts.rank ?? null;
     this.rawHtml = opts.rawHtml;
-    this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
     this.unavailableFields = opts.unavailableFields; // names of fields that can't be scraped from the provider
+    this.scrapeFailException = opts.scrapeFailException ?? null;
   }
   toMap() {
     return {
@@ -318,8 +338,8 @@ class UniversalAuthorPage {
       "subscribers": this.subscribers,
       "rank": this.rank,
       "rawHtml": this.rawHtml,
-      "scrapeFailMessage": this.scrapeFailMessage,
       "unavailableFields": this.unavailableFields,
+      "scrapeFailException": this.scrapeFailException?.toMap() ?? null,
     };
   }
   static fromMap(map) {
@@ -337,8 +357,10 @@ class UniversalAuthorPage {
       subscribers: map["subscribers"],
       rank: map["rank"],
       rawHtml: map["rawHtml"],
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: map["unavailableFields"],
+      scrapeFailException: map["scrapeFailException"] == null ?
+        null :
+        ScrapingException.fromMap(map["scrapeFailException"]),
     });
   }
 }
@@ -359,8 +381,8 @@ class UniversalComment {
     this.ratingsTotal = opts.ratingsTotal ?? null;
     this.commentDate = opts.commentDate ?? null;
     this.replyComments = opts.replyComments ?? null;
-    this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
     this.unavailableFields = opts.unavailableFields; // names of fields that can't be scraped from the provider
+    this.scrapeFailException = opts.scrapeFailException ?? null;
   }
   toMap() {
     return {
@@ -381,8 +403,8 @@ class UniversalComment {
       "replyComments": this.replyComments == null ?
         null :
         this.replyComments.map((c) => c.toMap()),
-      "scrapeFailMessage": this.scrapeFailMessage,
       "unavailableFields": this.unavailableFields,
+      "scrapeFailException": this.scrapeFailException?.toMap() ?? null,
     };
   }
   static fromMap(map) {
@@ -403,8 +425,10 @@ class UniversalComment {
       replyComments: map["replyComments"] == null ?
         null :
         map["replyComments"].map((c) => UniversalComment.fromMap(c)),
-      scrapeFailMessage: map["scrapeFailMessage"],
       unavailableFields: map["unavailableFields"],
+      scrapeFailException: map["scrapeFailException"] == null ?
+        null :
+        ScrapingException.fromMap(map["scrapeFailException"]),
     });
   }
 }

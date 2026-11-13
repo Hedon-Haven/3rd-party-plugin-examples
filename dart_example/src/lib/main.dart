@@ -105,7 +105,9 @@ Future<List<UniversalVideoPreview>> getHomePage(int page) async {
       verifiedAuthor: index % 2 == 0,
       unavailableFields: {},
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 != 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 != 0
+          ? ScrapingException("Test fail scrape message")
+          : null,
     ),
   );
 }
@@ -167,7 +169,9 @@ Future<List<UniversalVideoPreview>> getSearchResults(
       verifiedAuthor: index % 2 == 0,
       unavailableFields: {},
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 != 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 != 0
+          ? ScrapingException("Test fail scrape message")
+          : null,
     ),
   );
 }
@@ -196,7 +200,7 @@ Future<UniversalVideoMetadata> getVideoMetadata(
     universalVideoPreview: uvp,
     unavailableFields: {},
     // Change this to test partial metadata scrape fail
-    //scrapeFailMessage: "Test fail scrape message",
+    //scrapeFailException: ScrapingException("Test fail scrape message"),
     authorID: "tester-author-$videoId",
     authorName: "Tester-author",
     authorSubscriberCount: 335433,
@@ -306,15 +310,17 @@ Future<List<UniversalComment>> getComments(
                 replyComments: [],
                 unavailableFields: {},
                 // Make every 4th comment a fail
-                scrapeFailMessage: index % 4 != 0
-                    ? "Test fail scrape message"
+                scrapeFailException: index % 4 != 0
+                    ? ScrapingException("Test fail scrape message")
                     : null,
               ),
             )
           : <UniversalComment>[],
       unavailableFields: {},
       // Make every 4th comment a fail
-      scrapeFailMessage: index % 4 != 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 != 0
+          ? ScrapingException("Test fail scrape message")
+          : null,
     ),
   );
 }
@@ -349,7 +355,9 @@ Future<List<UniversalVideoPreview>> getVideoSuggestions(
       verifiedAuthor: index % 2 == 0,
       unavailableFields: {},
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 != 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 != 0
+          ? ScrapingException("Test fail scrape message")
+          : null,
     ),
   );
 }
@@ -417,7 +425,9 @@ Future<List<UniversalVideoPreview>> getAuthorVideos(
       verifiedAuthor: index % 2 == 0,
       unavailableFields: {},
       // Make every 4th video a fail
-      scrapeFailMessage: index % 4 != 0 ? "Test fail scrape message" : null,
+      scrapeFailException: index % 4 != 0
+          ? ScrapingException("Test fail scrape message")
+          : null,
     ),
   );
 }
