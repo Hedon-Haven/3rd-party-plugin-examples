@@ -379,7 +379,7 @@ async function getAuthorPage(authorID) {
   });
 }
 
-async function getAuthorVideos(authorID, page) {
+async function getAuthorVideos(authorID, rawHtml, page) {
   if (simulateDelays) await new Promise((r) => setTimeout(r, 2000));
   if (page === 5) return [];
   return Array.from({

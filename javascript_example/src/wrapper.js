@@ -40,6 +40,6 @@ globalThis.getAuthorPage = async (id) =>
   (await _getAuthorPage(id))
   .toMap();
 
-globalThis.getAuthorVideos = async (id, page) =>
-  (await _getAuthorVideos(id, page))
+globalThis.getAuthorVideos = async (id, raw, page) =>
+  (await _getAuthorVideos(id, raw, page))
   .map((e) => e.toMap());

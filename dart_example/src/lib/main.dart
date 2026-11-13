@@ -398,6 +398,7 @@ Future<UniversalAuthorPage> getAuthorPage(String authorID) async {
 
 Future<List<UniversalVideoPreview>> getAuthorVideos(
   String authorID,
+  String rawHtml,
   int page,
 ) async {
   if (simulateDelays) await Future.delayed(const Duration(seconds: 2));

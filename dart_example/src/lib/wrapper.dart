@@ -149,9 +149,10 @@ void main() {
     () => getAuthorPage(id.toDart).then((r) => r.toMap().jsify()!),
   )).toJS;
   globalContext["getAuthorVideos"] =
-      ((JSString id, JSNumber page) => _asJsPromise(
+      ((JSString id, JSString raw, JSNumber page) => _asJsPromise(
         () => getAuthorVideos(
           id.toDart,
+          raw.toDart,
           page.toDartDouble.toInt(),
         ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
       )).toJS;
