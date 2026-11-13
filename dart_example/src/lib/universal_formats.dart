@@ -260,6 +260,9 @@ class UniversalVideoPreview {
   final DateTime? lastWatched;
   final DateTime? addedOn;
 
+  /// Names of fields above that can't be scraped from the provider
+  final Set<String> unavailableFields;
+
   /// If not null, indicates issue with the scrape
   /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
@@ -290,6 +293,7 @@ class UniversalVideoPreview {
     this.lastWatched,
     this.addedOn,
     this.scrapeFailMessage,
+    required this.unavailableFields,
   }) : verifiedAuthor = verifiedAuthor ?? false,
        virtualReality = virtualReality ?? false,
        thumbnailBinary = thumbnailBinary ?? Uint8List(0);
@@ -317,6 +321,7 @@ class UniversalVideoPreview {
       "lastWatched": convertToUnixTime(lastWatched),
       "addedOn": convertToUnixTime(addedOn),
       "scrapeFailMessage": scrapeFailMessage,
+      "unavailableFields": unavailableFields.toList(),
     };
   }
 
@@ -344,6 +349,7 @@ class UniversalVideoPreview {
       lastWatched: tryParseFromUnixTime(map["lastWatched"]),
       addedOn: tryParseFromUnixTime(map["addedOn"]),
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: (map["unavailableFields"] as List)
     );
   }
 }
@@ -379,6 +385,9 @@ class UniversalVideoMetadata {
   /// The getPreviewThumbnails functions might require the html. To avoid redownloading it, it will be directly passed to the function
   final Document rawHtml;
 
+  /// Names of fields above that can't be scraped from the provider
+  final Set<String> unavailableFields;
+
   /// If not null, indicates issue with the scrape
   /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
@@ -407,6 +416,7 @@ class UniversalVideoMetadata {
     this.chapters,
     required this.rawHtml,
     this.scrapeFailMessage,
+    required this.unavailableFields,
   }) : virtualReality = virtualReality ?? false;
 
   Map<String, dynamic> toJson() => toMap();
@@ -440,6 +450,7 @@ class UniversalVideoMetadata {
       "chapters": chapters?.map((k, v) => MapEntry(k.inSeconds.toString(), v)),
       "rawHtml": rawHtml.outerHtml,
       "scrapeFailMessage": scrapeFailMessage,
+      "unavailableFields": unavailableFields.toList(),
     };
   }
 
@@ -482,6 +493,9 @@ class UniversalVideoMetadata {
       ),
       rawHtml: html.parse(map["rawHtml"]),
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: (map["unavailableFields"] as List)
+          .cast<String>()
+          .toSet(),
     );
   }
 }
@@ -506,6 +520,9 @@ class UniversalAuthorPage {
   /// For testing/logging
   final Document rawHtml;
 
+  /// Names of fields above that can't be scraped from the provider
+  final Set<String> unavailableFields;
+
   /// If not null, indicates issue with the scrape
   /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
@@ -526,6 +543,7 @@ class UniversalAuthorPage {
     this.rank,
     required this.rawHtml,
     this.scrapeFailMessage,
+    required this.unavailableFields,
   });
 
   Map<String, dynamic> toJson() => toMap();
@@ -547,6 +565,7 @@ class UniversalAuthorPage {
       "rank": rank,
       "rawHtml": rawHtml.outerHtml,
       "scrapeFailMessage": scrapeFailMessage,
+      "unavailableFields": unavailableFields.toList(),
     };
   }
 
@@ -569,6 +588,9 @@ class UniversalAuthorPage {
       rank: map["rank"],
       rawHtml: html.parse(map["rawHtml"]),
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: (map["unavailableFields"] as List)
+          .cast<String>()
+          .toSet(),
     );
   }
 }
@@ -601,6 +623,9 @@ class UniversalComment {
   // Sometimes the reply comments are scraped/loaded after the main comment
   late List<UniversalComment>? replyComments;
 
+  /// Names of fields above that can't be scraped from the provider
+  final Set<String> unavailableFields;
+
   /// If not null, indicates issue with the scrape
   /// If starts with "Error", gets displayed differently in scraping_report
   /// The message itself is shown to the user in the scraping_report and is sent in bug reports
@@ -622,6 +647,7 @@ class UniversalComment {
     this.commentDate,
     this.replyComments,
     this.scrapeFailMessage,
+    required this.unavailableFields,
   });
 
   Map<String, dynamic> toJson() => toMap();
@@ -646,6 +672,7 @@ class UniversalComment {
           ?.map((comment) => comment.toMap())
           .toList(),
       "scrapeFailMessage": scrapeFailMessage,
+      "unavailableFields": unavailableFields.toList(),
     };
   }
 
@@ -671,6 +698,9 @@ class UniversalComment {
           )
           .toList(),
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: (map["unavailableFields"] as List)
+          .cast<String>()
+          .toSet(),
     );
   }
 }

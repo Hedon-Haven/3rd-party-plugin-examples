@@ -113,6 +113,7 @@ async function getHomePage(page) {
       authorName: `Tester-author ${index}`,
       authorID: `Tester-author ${index}`,
       verifiedAuthor: index % 2 === 0,
+      unavailableFields: [],
       // Make every 4th video a fail
       scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
     }),
@@ -168,6 +169,7 @@ async function getSearchResults(request, page) {
       authorName: `Tester-author ${index}`,
       authorID: `Tester-author ${index}`,
       verifiedAuthor: index % 2 === 0,
+      unavailableFields: [],
       // Make every 4th video a fail
       scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
     }),
@@ -189,6 +191,7 @@ async function getVideoMetadata(videoId, uvp) {
     },
     title: "Tester video metadata title",
     universalVideoPreview: uvp,
+    unavailableFields: [],
     // Change this to test partial metadata scrape fail
     //scrapeFailMessage: "Test fail scrape message",
     authorID: `tester-author-${videoId}`,
@@ -296,10 +299,12 @@ async function getComments(videoID, rawHtml, page) {
             ratingsTotal: j % 2 === 0 ? 5 : 6,
             commentDate: new Date(),
             replyComments: [],
+            unavailableFields: [],
             // Make every 4th reply a fail
             scrapeFailMessage: j % 4 !== 0 ? "Test fail scrape message" : null,
           }),
         ) : [],
+      unavailableFields: [],
       // Make every 4th comment a fail
       scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
     }),
@@ -332,6 +337,7 @@ async function getVideoSuggestions(videoID, rawHtml, page) {
       authorName: `Tester-suggestion-author ${index}`,
       authorID: `Tester-suggestion-author ${index}`,
       verifiedAuthor: index % 2 === 0,
+      unavailableFields: [],
       // Make every 4th video a fail
       scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
     }),
@@ -366,6 +372,7 @@ async function getAuthorPage(authorID) {
     },
     viewsTotal: 23773212,
     videosTotal: 114,
+    unavailableFields: [],
     subscribers: 573529,
     rank: 3746,
     rawHtml: "",
@@ -398,6 +405,7 @@ async function getAuthorVideos(authorID, page) {
       authorName: `Tester-author-same ${index}`,
       authorID: `Tester-author-same ${index}`,
       verifiedAuthor: index % 2 === 0,
+      unavailableFields: [],
       // Make every 4th video a fail
       scrapeFailMessage: index % 4 !== 0 ? "Test fail scrape message" : null,
     }),

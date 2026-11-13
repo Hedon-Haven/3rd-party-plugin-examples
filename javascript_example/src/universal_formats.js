@@ -142,6 +142,7 @@ class UniversalVideoPreview {
     this.lastWatched = opts.lastWatched ?? null;
     this.addedOn = opts.addedOn ?? null;
     this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
+    this.unavailableFields = opts.unavailableFields;
   }
   toMap() {
     return {
@@ -164,6 +165,7 @@ class UniversalVideoPreview {
       "lastWatched": convertToUnixTime(this.lastWatched),
       "addedOn": convertToUnixTime(this.addedOn),
       "scrapeFailMessage": this.scrapeFailMessage,
+      "unavailableFields": this.unavailableFields,
     };
   }
   static fromMap(map) {
@@ -188,6 +190,7 @@ class UniversalVideoPreview {
       lastWatched: tryParseFromUnixTime(map["lastWatched"]),
       addedOn: tryParseFromUnixTime(map["addedOn"]),
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: map["unavailableFields"],
     });
   }
 }
@@ -216,6 +219,7 @@ class UniversalVideoMetadata {
     this.chapters = opts.chapters ?? null; // { [seconds: string]: string }
     this.rawHtml = opts.rawHtml;
     this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
+    this.unavailableFields = opts.unavailableFields; // names of fields that can't be scraped from the provider
   }
   toMap() {
     return {
@@ -248,6 +252,7 @@ class UniversalVideoMetadata {
       "chapters": this.chapters,
       "rawHtml": this.rawHtml,
       "scrapeFailMessage": this.scrapeFailMessage,
+      "unavailableFields": this.unavailableFields,
     };
   }
   static fromMap(map) {
@@ -274,6 +279,7 @@ class UniversalVideoMetadata {
       chapters: map["chapters"],
       rawHtml: map["rawHtml"],
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: map["unavailableFields"],
     });
   }
 }
@@ -294,6 +300,7 @@ class UniversalAuthorPage {
     this.rank = opts.rank ?? null;
     this.rawHtml = opts.rawHtml;
     this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
+    this.unavailableFields = opts.unavailableFields; // names of fields that can't be scraped from the provider
   }
   toMap() {
     return {
@@ -312,6 +319,7 @@ class UniversalAuthorPage {
       "rank": this.rank,
       "rawHtml": this.rawHtml,
       "scrapeFailMessage": this.scrapeFailMessage,
+      "unavailableFields": this.unavailableFields,
     };
   }
   static fromMap(map) {
@@ -330,6 +338,7 @@ class UniversalAuthorPage {
       rank: map["rank"],
       rawHtml: map["rawHtml"],
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: map["unavailableFields"],
     });
   }
 }
@@ -351,6 +360,7 @@ class UniversalComment {
     this.commentDate = opts.commentDate ?? null;
     this.replyComments = opts.replyComments ?? null;
     this.scrapeFailMessage = opts.scrapeFailMessage ?? null;
+    this.unavailableFields = opts.unavailableFields; // names of fields that can't be scraped from the provider
   }
   toMap() {
     return {
@@ -372,6 +382,7 @@ class UniversalComment {
         null :
         this.replyComments.map((c) => c.toMap()),
       "scrapeFailMessage": this.scrapeFailMessage,
+      "unavailableFields": this.unavailableFields,
     };
   }
   static fromMap(map) {
@@ -393,6 +404,7 @@ class UniversalComment {
         null :
         map["replyComments"].map((c) => UniversalComment.fromMap(c)),
       scrapeFailMessage: map["scrapeFailMessage"],
+      unavailableFields: map["unavailableFields"],
     });
   }
 }
