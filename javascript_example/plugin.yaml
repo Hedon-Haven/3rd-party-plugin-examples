@@ -7,7 +7,7 @@ metadata:
   contactEmail: "contact@hedon-haven.top"
   issueTrackerUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/issues"
   description: "A tester plugin written in JavaScript for testing external plugins"
-  updateUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/tester_external_js-update.yaml"
+  updateUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/com.example.tester_external_js.update.yaml"
 
 providerData:
   iconUrl: "https://placehold.co/favicon.ico"
