@@ -8,7 +8,7 @@ import 'package:html/parser.dart' as html;
 
 import 'try_parse.dart';
 
-final pluginCodeName = "com.hedon_haven.tester_external_dart";
+final pluginCodeName = "com.example.tester_external_dart";
 
 class HttpResponse {
   final int statusCode;

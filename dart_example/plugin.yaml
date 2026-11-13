@@ -1,6 +1,6 @@
 apiVersion: 1.0
 metadata:
-  codeName: "com.hedon_haven.tester_external_dart"
+  codeName: "com.example.tester_external_dart"
   prettyName: "Tester as External (dart)"
   version: v0.4.0
   developer: "Hedon dev"

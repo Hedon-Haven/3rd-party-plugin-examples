@@ -1,6 +1,6 @@
 // Trimmed/slightly simplified JS mirror of universal_formats.dart from the main Hedon Haven repo
 
-const pluginCodeName = "com.hedon_haven.tester_external_js";
+const pluginCodeName = "com.example.tester_external_js";
 
 function tryParseFromUnixTime(unixTimeInSeconds) {
   if (unixTimeInSeconds == null) return null;
