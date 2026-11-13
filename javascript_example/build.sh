@@ -3,7 +3,7 @@
 set -eo pipefail
 
 if [ -n "$1" ] && [ "$1" != "--release" ] && [ "$1" != "--prepare-release" ]; then
-  echo "Usage: ./compile.sh [--release | --prepare-release]"
+  echo "Usage: ./build.sh [--release | --prepare-release]"
   echo "  (no argument)      Build only"
   echo "  --release          Build and generate deploy/<codeName>.update.yaml from update.yaml"
   echo "  --prepare-release  Only set a new version and changelog in plugin.yaml and update.yaml"
@@ -68,9 +68,9 @@ echo "Combining into build/bundle.js..."
 
 echo "Compressing into deploy/$codeName.zip..."
 # Set timestamps to 0 unix time for all files to achieve reproducible zip
-touch -d "@0" ./plugin.yaml ./compile.sh ./build/bundle.js
+touch -d "@0" ./plugin.yaml ./build.sh ./build/bundle.js
 find ./src -exec touch -d "@0" {} \;
-zip -X -r "deploy/$codeName.zip" src/ compile.sh plugin.yaml
+zip -X -r "deploy/$codeName.zip" src/ build.sh plugin.yaml
 # The host expects bundle.js in the zip root
 zip -X -j "deploy/$codeName.zip" build/bundle.js
 
@@ -83,7 +83,7 @@ if [ "$1" = "--release" ]; then
   sed "s/^sha256Sum: .*/sha256Sum: \"$checksum\"/" update.yaml > "deploy/$codeName.update.yaml"
 else
   echo "Skipping update file generation (only needed for releases)."
-  echo "Run ./compile.sh --release to also generate deploy/$codeName.update.yaml"
+  echo "Run ./build.sh --release to also generate deploy/$codeName.update.yaml"
 fi
 
 echo "Done"
