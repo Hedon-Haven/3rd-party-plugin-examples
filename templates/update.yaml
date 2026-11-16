@@ -1,4 +1,4 @@
 version: <auto-filled by build.sh --prepare-release>
-downloadUrl: # link to hosted plugin.zip. See https://docs.hedon-haven.top/plugin-hosting-and-updates.md
+downloadUrl: # https link to the hosted plugin zip, see https://docs.hedon-haven.top/plugin-hosting-and-updates.md
 sha256Sum: <auto-filled by build.sh --release>
 changelog: <auto-filled by build.sh --prepare-release>

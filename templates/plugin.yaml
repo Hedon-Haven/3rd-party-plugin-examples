@@ -1,24 +1,24 @@
-apiVersion: 1.0 # do not change
+apiVersion: 1.0 # must be 1.0
 metadata:
   codeName: <filled by init.sh>
-  prettyName: # official, correctly cased name of the provider
+  prettyName: # the official, correctly cased name of the provider
   version: v0.0.1
-  developer: # your developer name to display to user
-  contactEmail: # your email for bug reports, optional but recommended.
-  issueTrackerUrl: # link to your issue tracker to create a bug report, optional but recommended
-  description: # short description of the plugin
-  updateUrl: # link to hosted update.yaml. See https://docs.hedon-haven.top/plugin-hosting-and-updates.md
+  developer: # developer name, shown to users
+  contactEmail: # (optional, recommended) email address for bug reports
+  issueTrackerUrl: # (optional, recommended) link to the issue tracker for bug reports
+  description: # short description, e.g. to mention limitations
+  updateUrl: # (optional) https link to the hosted update.yaml, see https://docs.hedon-haven.top/plugin-hosting-and-updates.md
 
 providerData:
-  iconUrl: # link to icon shown in the results list, e.g. "https://placehold.co/favicon.ico"
-  serviceUrl: # link to the website that this plugin scrapes, e.g. "https://example.com"
-  handleUrls: # links that this plugin can handle when they are shared into the app, e.g. see below:
+  iconUrl: # https link to a small icon of the website, preferably its favicon, e.g. "https://placehold.co/favicon.ico"
+  serviceUrl: # the website the plugin scrapes, shown to users in the app, e.g. "https://example.com"
+  handleUrls: # links that the plugin can handle, see https://docs.hedon-haven.top/plugin-yaml.md#handleurls
     - # "https://example.com/home"
     - # "https://example.com/search"
     - # "https://example.com/video"
     - # "https://example.com/author"
 
-initialPageCounts: # see https://docs.hedon-haven.top/plugin-yaml.md#initialpagecounts
+initialPageCounts: # first page number of each list, see https://docs.hedon-haven.top/plugin-yaml.md#initialpagecounts
   initialHomePage: # 0
   initialSearchResultsPage: # 0
   initialCommentsPage: # 0
