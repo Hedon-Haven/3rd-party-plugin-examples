@@ -1,24 +1,42 @@
 # 3rd-party-plugin-examples
 
+> [!WARNING]
+> WIP - DO NOT FOLLOW THESE INSTRUCTIONS YET! If you would like to create a 3rd party plugin,
+> please [contact me](mailto:contact@hedon-haven.top) first!
+
+
 Template repo for creating third party plugins for Hedon Haven.
 
-## How to create a plugin for Hedon Haven:
+Supported languages:
 
-WIP - DO NOT FOLLOW THESE INSTRUCTIONS YET! If you would like to create a 3rd party plugin,
-please [contact me](mailto:contact@hedon-haven.top)!
+* Dart
+* JavaScript
+* TypeScript (coming soon)
 
-1. Fork this repo
-2. Decide which language you want to use:
-    - JavaScript
-    - TypeScript
-    - Dart
-    - Others (not yet implemented)
-3. Follow the instructions for the language you chose
-4. Update plugin.yaml with the correct values (replace all placeholders!)
-5. (If using GitHub): Enable GitHub actions
-6. Trigger the ´test plugin functionality´ action (it will then run at 00:00 UTC daily and
-   notify you of any errors) OR run some-script.sh manually
-7. Run the ´create release´ action (or manually create a release)
-   OR <ADD INSTRUCTIONS FOR MANUAL FILE HOSTING>
-8. (Optional) Email `contact@hedon-haven.top` with the subject: `Add "provider name" plugin to
-   official list` to have your plugin linked on the official website
+> Third party plugins run in a QuickJS JavaScript runtime. In theory, any language that can run in
+> QuickJS (e.g. by transpiling to JavaScript) should work too.
+
+## Quick start
+
+1. Create a new repo from this template, clone it and run `./init.sh` locally. It sets up the
+   repo for the plugin.
+2. Fill in `plugin.yaml`. Every value that must be set is commented out. All keys are explained in
+   the [plugin.yaml documentation](https://docs.hedon-haven.top/plugin-yaml.md).
+3. Follow the instructions in the `README.md` of the chosen language.
+4. Once the plugin is ready to publish, see [Releasing](#releasing).
+5. (Optional) After the first release, email `contact@hedon-haven.top` with the subject:
+   `Add "provider name" plugin to official list` to have the plugin linked on the official website.
+
+## Testing
+
+TBD
+
+## Releasing
+
+1. Run `./build.sh --prepare-release` locally. It asks for the new version and a changelog and
+   updates all files that need them automatically.
+2. Commit and push.
+3. Publish:
+    - On GitHub: run the `Build release` action. It builds the plugin and publishes the release
+      automatically.
+    - Elsewhere: run `./build.sh --release` and upload all files from `deploy/` to a host.
