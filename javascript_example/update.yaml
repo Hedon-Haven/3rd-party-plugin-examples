@@ -1,8 +1,6 @@
-# Must be strictly major.minor.patch!
 version: v0.5.0
 downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/com.example.tester_external_js.zip"
 sha256Sum: "add_checksum_here"
-# multiline changelog to display to user
 changelog:
   - "Use new plugin build system"
   - "- Update API to match a"
