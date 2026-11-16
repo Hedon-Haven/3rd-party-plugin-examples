@@ -39,7 +39,6 @@ if [ -n "$confirm" ] && [[ $confirm != [yY] ]]; then
   exit 1
 fi
 
-mv README.md TEMPLATE_README.md
 others=()
 for folder in "${folders[@]}"; do
   if [ "$folder" != "$lang" ]; then
