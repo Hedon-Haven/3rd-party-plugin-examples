@@ -1,7 +1,7 @@
 # 3rd-party-plugin-examples
 
 > [!WARNING]
-> WIP - DO NOT FOLLOW THESE INSTRUCTIONS YET! If you would like to create a 3rd party plugin,
+> WIP! DO NOT FOLLOW THESE INSTRUCTIONS YET! If you would like to create a 3rd party plugin,
 > please [contact me](mailto:contact@hedon-haven.top) first!
 
 
