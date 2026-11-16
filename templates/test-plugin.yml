@@ -1,0 +1,17 @@
+name: Test plugin
+on:
+  workflow_dispatch:
+  # Uncomment to run the tests daily and catch changes on the provider's side
+  # schedule:
+  #   - cron: "0 0 * * *" # Every day at midnight UTC
+jobs:
+  test-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Testing plugin
+        run: |
+          echo "::notice::This is a stub. Replace this step with real tests"

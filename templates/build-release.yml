@@ -1,0 +1,42 @@
+name: Build release
+on:
+  workflow_dispatch:
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Checking version
+        id: version
+        run: |
+          version=$(sed -n "s/^version: //p" update.yaml)
+          if git ls-remote --exit-code --tags origin "refs/tags/$version" > /dev/null; then
+            echo "Release $version already exists. Bump the version locally with ./build.sh --prepare-release and push"
+            exit 1
+          fi
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      # Only needed for dart plugins
+      - uses: dart-lang/setup-dart@v1
+        if: hashFiles('src/pubspec.yaml') != ''
+
+      - name: Building plugin
+        run: ./build.sh --release
+
+      - name: Generating release body from changelog
+        run: |
+          sed -n '/^changelog:/,$p' update.yaml | tail -n +2 \
+            | sed -e 's/^  - "\(.*\)"$/- \1/' -e 's/\\\(.\)/\1/g' > release-body.md
+
+      - name: Publishing new release
+        uses: softprops/action-gh-release@v3
+        with:
+          name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.version }}
+          body_path: release-body.md
+          make_latest: true
+          files: |
+            deploy/*
