@@ -18,7 +18,7 @@ providerData:
     - # "https://example.com/video"
     - # "https://example.com/author"
 
-initialPageCounts: # see https://docs.hedon-haven.top/plugin-page-counts.md
+initialPageCounts: # see https://docs.hedon-haven.top/plugin-yaml.md#initialpagecounts
   initialHomePage: # 0
   initialSearchResultsPage: # 0
   initialCommentsPage: # 0
