@@ -80,7 +80,7 @@ echo "sha256: $checksum"
 
 if [ "$1" = "--release" ]; then
   echo "Generating deploy/$codeName.update.yaml from update.yaml..."
-  sed "s/^sha256Sum: .*/sha256Sum: \"$checksum\"/" update.yaml > "deploy/$codeName.update.yaml"
+  sed "s/^sha256Sum:.*/sha256Sum: \"$checksum\"/" update.yaml > "deploy/$codeName.update.yaml"
 else
   echo "Skipping update file generation (only needed for releases)."
   echo "Run ./build.sh --release to also generate deploy/$codeName.update.yaml"
