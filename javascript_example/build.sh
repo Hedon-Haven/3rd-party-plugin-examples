@@ -59,11 +59,11 @@ mkdir build deploy
 
 echo "Combining into build/bundle.js..."
 {
-  for file in ./src/*.js; do
+  while IFS= read -r file; do
     echo "// ==== START: $file ===="
     cat "$file"
     echo -e "\n// ==== END: $file ====\n"
-  done
+  done < <(find ./src -name "*.js" | LC_ALL=C sort)
 } > build/bundle.js
 
 echo "Compressing into deploy/$codeName.zip..."
