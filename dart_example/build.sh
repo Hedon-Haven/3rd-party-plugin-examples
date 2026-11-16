@@ -57,6 +57,9 @@ echo "Cleaning build and deploy directories..."
 rm -rf build deploy
 mkdir build deploy
 
+echo "Getting dart dependencies..."
+dart pub get --directory src
+
 echo "Compiling dart code to js..."
 dart compile js ./src/lib/wrapper.dart -O4 -o ./build/compiled-dart.js
 
