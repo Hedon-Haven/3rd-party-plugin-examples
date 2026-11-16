@@ -1,6 +1,8 @@
-# WORK IN PROGRESS! DO NOT USE YET!
-
 # JavaScript example 3rd party plugin
+
+> [!WARNING]
+> WIP! DO NOT FOLLOW THESE INSTRUCTIONS YET! If you would like to create a 3rd party plugin,
+> please [contact me](mailto:contact@hedon-haven.top) first!
 
 Example of a 3rd party plugin written in raw JavaScript.
 
