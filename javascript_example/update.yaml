@@ -3,4 +3,4 @@ downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/
 sha256Sum: <auto-filled by build.sh --release>
 changelog:
   - "Use new plugin build system"
-  - "- Update API to match a"
+  - "Update API to match app"
