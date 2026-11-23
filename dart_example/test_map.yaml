@@ -1,0 +1,17 @@
+testingSearchSuggestions:
+  - query: "test"
+    expectedSuggestion: "test-0"
+
+testingSearchResults:
+  - searchString: "test"
+
+testingVideos:
+  - videoID: "video-1"
+    progressThumbnailsAmount: 1000
+  - videoID: "video-2"
+    progressThumbnailsAmount: 1000
+
+testingAuthorPageIds:
+  - "author-1"
+  - "author-2"
+  - "author-3"

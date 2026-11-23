@@ -23,13 +23,24 @@ Supported languages:
 2. Fill in `plugin.yaml`. Every value that must be set is commented out. All keys are explained in
    the [plugin.yaml documentation](https://docs.hedon-haven.top/plugin-yaml.md).
 3. Follow the instructions in the `README.md` of the chosen language.
-4. Once the plugin is ready to publish, see [Releasing](#releasing).
-5. (Optional) After the first release, email `contact@hedon-haven.top` with the subject:
+4. Fill in `test_map.yaml` with test cases for the provider, see [Testing](#testing).
+5. Once the plugin is ready to publish, see [Releasing](#releasing).
+6. (Optional) After the first release, email `contact@hedon-haven.top` with the subject:
    `Add "provider name" plugin to official list` to have the plugin linked on the official website.
 
 ## Testing
 
-TBD
+`test_map.yaml` still contains the example values. Replace them with test cases for the plugin's
+provider. All keys are explained in the
+[test map documentation](https://docs.hedon-haven.top/plugin-test-map.md).
+
+- Locally: install the [flutter sdk](https://docs.flutter.dev/get-started/install) and run
+  `./test.sh`. To run only some tests, add `--name <regex>`, e.g. `./test.sh --name getComments`.
+- On GitHub: the `Test plugin` action runs automatically every day at 00:00 UTC. It can also be
+  run manually. To change or disable the schedule, edit `.github/workflows/test-plugin.yml`.
+
+`./test.sh` builds the plugin and tests it with the latest Hedon-Haven source, using
+the test cases in `test_map.yaml`. Dumps of all requests and results are written to `dumps/`.
 
 ## Releasing
 

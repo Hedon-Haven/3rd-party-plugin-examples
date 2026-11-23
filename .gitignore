@@ -3,3 +3,5 @@
 # Exclude compiled files
 build/
 deploy/
+dumps/
+hedon-haven/
