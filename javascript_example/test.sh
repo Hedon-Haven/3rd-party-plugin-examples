@@ -2,21 +2,31 @@
 
 set -eo pipefail
 
+if [ "$(uname -s)" != "Linux" ] || [ "$(uname -m)" != "x86_64" ]; then
+  echo "Error: only x86_64 linux is supported. Use the Test plugin GitHub action, WSL or a VM"
+  exit 1
+fi
+
 if [ ! -f test_map.yaml ]; then
   echo "Error: test_map.yaml not found"
   exit 1
 fi
 
 root=$(pwd)
-hedonHavenDir="$root/hedon-haven"
+testsDir="$root/hedon-haven-tests"
 codeName=$(sed -n "s/^  codeName: \"\(.*\)\"/\1/p" plugin.yaml)
 
-if [ -d "$hedonHavenDir/.git" ]; then
-  echo "Updating Hedon-Haven in $hedonHavenDir..."
-  git -C "$hedonHavenDir" pull --ff-only
+echo "Downloading plugin tests from the latest Hedon-Haven release..."
+tag=$(curl -fsSL https://changelog.hedon-haven.top/latest)
+url="https://download.hedon-haven.top/$tag/plugin-tests-linux-x86_64.tar.gz"
+# The url contains the release tag, so an unchanged url means the tests are up to date
+if [ "$(cat "$testsDir/.url" 2>/dev/null)" = "$url" ]; then
+  echo "Plugin tests are already up to date"
 else
-  echo "Cloning Hedon-Haven into $hedonHavenDir..."
-  git clone --depth=1 https://github.com/Hedon-Haven/Hedon-Haven "$hedonHavenDir"
+  rm -rf "$testsDir"
+  mkdir "$testsDir"
+  curl -fsSL "$url" | tar -xz -C "$testsDir"
+  echo "$url" > "$testsDir/.url"
 fi
 
 echo "Building plugin.zip..."
@@ -26,18 +36,10 @@ echo "Unpacking deploy/$codeName.zip..."
 rm -rf build/test_plugin
 unzip -q "deploy/$codeName.zip" -d build/test_plugin
 
-echo "Prepping flutter and building native libs..."
-cd "$hedonHavenDir"
-flutter pub get
-# Generates the mocks needed by the tests
-flutter pub run build_runner build
-# Builds the native libs the tests need
-flutter build linux
-
-release="$hedonHavenDir/build/linux/x64/release"
-export LD_LIBRARY_PATH="$release/bundle/lib:$release/plugins/flutter_js/bundle/lib:$LD_LIBRARY_PATH"
-
 echo "Running plugin tests..."
+cd "$testsDir"
+flutter pub get
+export LD_LIBRARY_PATH="$testsDir/natives:$LD_LIBRARY_PATH"
 status=0
 PLUGIN_PATH="$root/build/test_plugin" PLUGIN_TEST_MAP="$root/test_map.yaml" \
   flutter test --no-pub test/plugin_test.dart "$@" || status=$?

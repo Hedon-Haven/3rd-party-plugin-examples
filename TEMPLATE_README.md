@@ -34,8 +34,9 @@ Supported languages:
 provider. All keys are explained in the
 [test map documentation](https://docs.hedon-haven.top/plugin-test-map.md).
 
-- Locally: install the [flutter sdk](https://docs.flutter.dev/get-started/install) and run
-  `./test.sh`. To run only some tests, add `--name <regex>`, e.g. `./test.sh --name getComments`.
+- Locally (Linux x86_64 only): install the
+  [flutter sdk](https://docs.flutter.dev/get-started/install) and run `./test.sh`, which downloads
+  the tests from the latest Hedon-Haven release. To run only some tests, add `--name <regex>`, e.g. `./test.sh --name getComments`.
 - On GitHub: the `Test plugin` action runs automatically every day at 00:00 UTC. It can also be
   run manually. To change or disable the schedule, edit `.github/workflows/test-plugin.yml`.
 
