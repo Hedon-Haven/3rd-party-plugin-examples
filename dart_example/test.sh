@@ -16,17 +16,25 @@ root=$(pwd)
 testsDir="$root/hedon-haven-tests"
 codeName=$(sed -n "s/^  codeName: \"\(.*\)\"/\1/p" plugin.yaml)
 
-echo "Downloading plugin tests from the latest Hedon-Haven release..."
-tag=$(curl -fsSL https://changelog.hedon-haven.top/latest)
-url="https://download.hedon-haven.top/$tag/plugin-tests-linux-x86_64.tar.gz"
-# The url contains the release tag, so an unchanged url means the tests are up to date
-if [ "$(cat "$testsDir/.url" 2>/dev/null)" = "$url" ]; then
-  echo "Plugin tests are already up to date"
+# Set HEDON_HAVEN_TESTS_DIR to use a local dir instead of downloading the latest release.
+# It must contain the contents of plugin-tests-linux-x86_64.tar.gz:
+#   lib/, test/, assets/, pubspec.yaml, pubspec.lock and natives/ (all native libs, flat)
+if [ -n "$HEDON_HAVEN_TESTS_DIR" ]; then
+  testsDir=$(realpath "$HEDON_HAVEN_TESTS_DIR")
+  echo "Using plugin tests from $testsDir"
 else
-  rm -rf "$testsDir"
-  mkdir "$testsDir"
-  curl -fsSL "$url" | tar -xz -C "$testsDir"
-  echo "$url" > "$testsDir/.url"
+  echo "Downloading plugin tests from the latest Hedon-Haven release..."
+  tag=$(curl -fsSL https://changelog.hedon-haven.top/latest)
+  url="https://download.hedon-haven.top/$tag/plugin-tests-linux-x86_64.tar.gz"
+  # The url contains the release tag, so an unchanged url means the tests are up to date
+  if [ "$(cat "$testsDir/.url" 2>/dev/null)" = "$url" ]; then
+    echo "Plugin tests are already up to date"
+  else
+    rm -rf "$testsDir"
+    mkdir "$testsDir"
+    curl -fsSL "$url" | tar -xz -C "$testsDir"
+    echo "$url" > "$testsDir/.url"
+  fi
 fi
 
 echo "Building plugin.zip..."

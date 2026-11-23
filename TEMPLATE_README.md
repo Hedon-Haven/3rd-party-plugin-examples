@@ -40,8 +40,12 @@ provider. All keys are explained in the
 - On GitHub: the `Test plugin` action runs automatically every day at 00:00 UTC. It can also be
   run manually. To change or disable the schedule, edit `.github/workflows/test-plugin.yml`.
 
-`./test.sh` builds the plugin and tests it with the latest Hedon-Haven source, using
+`./test.sh` builds the plugin and tests it with the tests of the latest Hedon-Haven release, using
 the test cases in `test_map.yaml`. Dumps of all requests and results are written to `dumps/`.
+
+To run without downloading, set `HEDON_HAVEN_TESTS_DIR` to a local directory with the contents of
+`plugin-tests-linux-x86_64.tar.gz` from a Hedon-Haven release: `lib/`, `test/`, `assets/`,
+`pubspec.yaml`, `pubspec.lock` and `natives/` (all native libs, flat).
 
 ## Releasing
 
