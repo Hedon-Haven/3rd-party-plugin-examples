@@ -28,6 +28,19 @@ class ScrapingException implements Exception {
       ScrapingException(map["message"], map["isCritical"] == true);
 }
 
+/// Returns a critical [ScrapingException] naming every null or empty value
+ScrapingException? criticalFieldsMissing(Map<String, String?> fields) {
+  final missing = [
+    for (final entry in fields.entries)
+      if (entry.value?.isEmpty ?? true) entry.key,
+  ];
+  if (missing.isEmpty) return null;
+  return ScrapingException(
+    "Failed to scrape critical variable(s): ${missing.join(", ")}",
+    true,
+  );
+}
+
 class HttpResponse {
   final int statusCode;
   final Uint8List bodyBytes;
@@ -286,8 +299,8 @@ class UniversalVideoPreview {
   ScrapingException? scrapeFailException;
 
   UniversalVideoPreview({
-    required this.iD,
-    required this.title,
+    required String? iD,
+    required String? title,
     this.thumbnail,
     this.thumbnailHttpHeaders,
     Uint8List? thumbnailBinary,
@@ -310,10 +323,15 @@ class UniversalVideoPreview {
     this.lastWatched,
     this.addedOn,
     required this.unavailableFields,
-    this.scrapeFailException,
-  }) : verifiedAuthor = verifiedAuthor ?? false,
+    ScrapingException? scrapeFailException,
+  }) : iD = iD ?? "",
+       title = title ?? "",
+       verifiedAuthor = verifiedAuthor ?? false,
        virtualReality = virtualReality ?? false,
-       thumbnailBinary = thumbnailBinary ?? Uint8List(0);
+       thumbnailBinary = thumbnailBinary ?? Uint8List(0),
+       scrapeFailException =
+           scrapeFailException ??
+           criticalFieldsMissing({"iD": iD, "title": title});
 
   Map<String, dynamic> toJson() => toMap();
 
@@ -654,10 +672,10 @@ class UniversalComment {
   ScrapingException? scrapeFailException;
 
   UniversalComment({
-    required this.iD,
+    required String? iD,
     required this.videoID,
-    required this.author,
-    required this.commentBody,
+    required String? author,
+    required String? commentBody,
     required this.hidden,
     this.authorID,
     this.countryID,
@@ -669,8 +687,17 @@ class UniversalComment {
     this.commentDate,
     this.replyComments,
     required this.unavailableFields,
-    this.scrapeFailException,
-  });
+    ScrapingException? scrapeFailException,
+  }) : iD = iD ?? "",
+       author = author ?? "",
+       commentBody = commentBody ?? "",
+       scrapeFailException =
+           scrapeFailException ??
+           criticalFieldsMissing({
+             "iD": iD,
+             "author": author,
+             "commentBody": commentBody,
+           });
 
   Map<String, dynamic> toJson() => toMap();
 

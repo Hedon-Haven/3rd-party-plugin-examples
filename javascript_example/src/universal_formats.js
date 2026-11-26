@@ -18,6 +18,13 @@ class ScrapingException {
   }
 }
 
+// Returns a critical ScrapingException naming every null or empty value
+function criticalFieldsMissing(fields) {
+  const missing = Object.keys(fields).filter((key) => fields[key] == null || fields[key] === "");
+  if (missing.length === 0) return null;
+  return new ScrapingException(`Failed to scrape critical variable(s): ${missing.join(", ")}`, true);
+}
+
 function tryParseFromUnixTime(unixTimeInSeconds) {
   if (unixTimeInSeconds == null) return null;
   return new Date(unixTimeInSeconds * 1000);
@@ -140,8 +147,8 @@ class UniversalSearchRequest {
 
 class UniversalVideoPreview {
   constructor(opts = {}) {
-    this.iD = opts.iD;
-    this.title = opts.title;
+    this.iD = opts.iD ?? "";
+    this.title = opts.title ?? "";
     this.thumbnail = opts.thumbnail ?? null;
     this.thumbnailHttpHeaders = opts.thumbnailHttpHeaders ?? null;
     this.thumbnailBinary = opts.thumbnailBinary ?? new Uint8Array(0);
@@ -158,7 +165,8 @@ class UniversalVideoPreview {
     this.lastWatched = opts.lastWatched ?? null;
     this.addedOn = opts.addedOn ?? null;
     this.unavailableFields = opts.unavailableFields;
-    this.scrapeFailException = opts.scrapeFailException ?? null;
+    this.scrapeFailException = opts.scrapeFailException ??
+      criticalFieldsMissing({ iD: opts.iD, title: opts.title });
   }
   toMap() {
     return {
@@ -367,10 +375,10 @@ class UniversalAuthorPage {
 
 class UniversalComment {
   constructor(opts = {}) {
-    this.iD = opts.iD;
+    this.iD = opts.iD ?? "";
     this.videoID = opts.videoID;
-    this.author = opts.author;
-    this.commentBody = opts.commentBody;
+    this.author = opts.author ?? "";
+    this.commentBody = opts.commentBody ?? "";
     this.hidden = opts.hidden ?? false;
     this.authorID = opts.authorID ?? null;
     this.countryID = opts.countryID ?? null;
@@ -382,7 +390,8 @@ class UniversalComment {
     this.commentDate = opts.commentDate ?? null;
     this.replyComments = opts.replyComments ?? null;
     this.unavailableFields = opts.unavailableFields; // names of fields that can't be scraped from the provider
-    this.scrapeFailException = opts.scrapeFailException ?? null;
+    this.scrapeFailException = opts.scrapeFailException ??
+      criticalFieldsMissing({ iD: opts.iD, author: opts.author, commentBody: opts.commentBody });
   }
   toMap() {
     return {
