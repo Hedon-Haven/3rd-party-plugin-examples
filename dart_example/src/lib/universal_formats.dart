@@ -22,7 +22,10 @@ class ScrapingException implements Exception {
   @override
   String toString() => message;
 
-  Map<String, dynamic> toMap() => {"message": message, "isCritical": isCritical};
+  Map<String, dynamic> toMap() => {
+    "message": message,
+    "isCritical": isCritical,
+  };
 
   static ScrapingException fromMap(Map<String, dynamic> map) =>
       ScrapingException(map["message"], map["isCritical"] == true);
