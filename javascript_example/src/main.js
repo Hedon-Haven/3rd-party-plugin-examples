@@ -1,5 +1,3 @@
-// Depends on universal_formats.js being concatenated before this file.
-
 const simulateDelays = false;
 
 let progressThumbnailsCancelled = false;
