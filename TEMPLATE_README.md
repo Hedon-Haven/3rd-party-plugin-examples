@@ -11,7 +11,7 @@ Supported languages:
 
 * Dart
 * JavaScript
-* TypeScript (coming soon)
+* TypeScript
 
 > Third party plugins run in a QuickJS JavaScript runtime. In theory, any language that can run in
 > QuickJS (e.g. by transpiling to JavaScript) should work too.

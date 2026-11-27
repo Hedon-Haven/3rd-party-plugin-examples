@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    // The files must stay global scripts (no import/export), as build.sh joins them into one script
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "types": [],
+    "rootDir": ".",
+    "outDir": "../build/tsc",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
