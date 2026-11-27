@@ -56,7 +56,7 @@ done
 
 echo "Replacing codeName..."
 oldCodeName=$(sed -n "s/^  codeName: \"\(.*\)\"/\1/p" plugin.yaml)
-grep -rlF --exclude-dir=.dart_tool "$oldCodeName" src | xargs -r sed -i "s/$oldCodeName/$codeName/g"
+{ grep -rlF --exclude-dir=.dart_tool --exclude-dir=node_modules "$oldCodeName" src || true; } | xargs -r sed -i "s/$oldCodeName/$codeName/g"
 if [ -f src/pubspec.yaml ]; then
   sed -i "s/^name: .*/name: ${codeName//./_}/" src/pubspec.yaml
 fi
