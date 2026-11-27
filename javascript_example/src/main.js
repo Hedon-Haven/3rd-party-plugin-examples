@@ -121,19 +121,13 @@ async function getHomePage(page) {
 }
 
 async function downloadThumbnail(uri, thumbnailHttpHeaders) {
-  try {
-    const response = await httpRequest(uri, thumbnailHttpHeaders);
-    if (response.statusCode === 200) {
-      // bodyBytes comes back as an int array (JSON), convert for the host
-      return Uint8Array.from(response.bodyBytes);
-    } else {
-      consoleLog("error", `Error downloading thumbnail: ${response.statusCode}`);
-      return new Uint8Array(0);
-    }
-  } catch (e) {
-    consoleLog("error", `Error downloading thumbnail: ${e}`);
-    return new Uint8Array(0);
+  const response = await httpRequest(uri, thumbnailHttpHeaders);
+  if (response.statusCode !== 200) {
+    consoleLog("error", `Error downloading thumbnail: ${response.statusCode}`);
+    throw new Error(`Error downloading thumbnail: ${response.statusCode}`);
   }
+  // bodyBytes comes back as an int array (JSON), convert for the host
+  return Uint8Array.from(response.bodyBytes);
 }
 
 async function getSearchSuggestions(searchString) {

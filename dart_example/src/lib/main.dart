@@ -116,21 +116,12 @@ Future<Uint8List> downloadThumbnail(
   String uri,
   Map<String, String>? thumbnailHttpHeaders,
 ) async {
-  try {
-    final response = await httpRequest(uri);
-    if (response.statusCode == 200) {
-      return response.bodyBytes;
-    } else {
-      consoleLog(
-        "error",
-        "Error downloading thumbnail: ${response.statusCode}",
-      );
-      return Uint8List(0);
-    }
-  } catch (e) {
-    consoleLog("error", "Error downloading thumbnail: $e");
-    return Uint8List(0);
+  final response = await httpRequest(uri);
+  if (response.statusCode != 200) {
+    consoleLog("error", "Error downloading thumbnail: ${response.statusCode}");
+    throw Exception("Error downloading thumbnail: ${response.statusCode}");
   }
+  return response.bodyBytes;
 }
 
 Future<List<String>> getSearchSuggestions(String searchString) async {
