@@ -9,9 +9,9 @@ Template repo for creating third party plugins for Hedon Haven.
 
 Supported languages:
 
-* Dart
 * JavaScript
 * TypeScript
+* Dart
 
 > Third party plugins run in a QuickJS JavaScript runtime. In theory, any language that can run in
 > QuickJS (e.g. by transpiling to JavaScript) should work too.

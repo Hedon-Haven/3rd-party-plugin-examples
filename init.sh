@@ -2,8 +2,8 @@
 
 set -eo pipefail
 
-languages=("JavaScript" "Dart" "TypeScript")
-folders=("javascript_example" "dart_example" "typescript_example")
+languages=("JavaScript" "TypeScript" "Dart")
+folders=("javascript_example" "typescript_example" "dart_example")
 
 
 echo "Available languages:"
