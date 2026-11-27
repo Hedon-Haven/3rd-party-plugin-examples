@@ -8,8 +8,6 @@ import 'package:html/parser.dart' as html;
 
 import 'try_parse.dart';
 
-final pluginCodeName = "com.example.tester_external_dart";
-
 class ScrapingException implements Exception {
   final String message;
   final bool isCritical;
@@ -342,7 +340,6 @@ class UniversalVideoPreview {
     return {
       "iD": iD,
       "title": title,
-      "plugin": pluginCodeName,
       "thumbnail": thumbnail,
       "thumbnailHttpHeaders": thumbnailHttpHeaders,
       "thumbnailBinary": thumbnailBinary.toList(),
@@ -468,7 +465,6 @@ class UniversalVideoMetadata {
       "m3u8Uris": m3u8Uris.map((k, v) => MapEntry(k.toString(), v.toString())),
       "playbackHttpHeaders": playbackHttpHeaders,
       "title": title,
-      "plugin": pluginCodeName,
       "universalVideoPreview": universalVideoPreview.toMap(),
       "authorID": authorID,
       "authorName": authorName,
@@ -594,7 +590,6 @@ class UniversalAuthorPage {
     return {
       "iD": iD,
       "name": name,
-      "plugin": pluginCodeName,
       "avatar": avatar,
       "banner": banner,
       "aliases": aliases,
@@ -711,7 +706,6 @@ class UniversalComment {
       "author": author,
       "commentBody": commentBody,
       "hidden": hidden,
-      "plugin": pluginCodeName,
       "authorID": authorID,
       "countryID": countryID,
       "orientation": orientation,

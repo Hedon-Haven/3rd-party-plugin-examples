@@ -1,7 +1,5 @@
 // Trimmed/slightly simplified JS mirror of universal_formats.dart from the main Hedon Haven repo
 
-const pluginCodeName = "com.example.tester_external_js";
-
 class ScrapingException {
   constructor(message = "unknown scraping exception", isCritical = false) {
     this.message = message;
@@ -172,7 +170,6 @@ class UniversalVideoPreview {
     return {
       "iD": this.iD,
       "title": this.title,
-      "plugin": pluginCodeName,
       "thumbnail": this.thumbnail,
       "thumbnailHttpHeaders": this.thumbnailHttpHeaders,
       "thumbnailBinary": Array.from(this.thumbnailBinary),
@@ -253,7 +250,6 @@ class UniversalVideoMetadata {
       "m3u8Uris": this.m3u8Uris,
       "playbackHttpHeaders": this.playbackHttpHeaders,
       "title": this.title,
-      "plugin": pluginCodeName,
       "universalVideoPreview": this.universalVideoPreview?.toMap() ?? null,
       "authorID": this.authorID,
       "authorName": this.authorName,
@@ -334,7 +330,6 @@ class UniversalAuthorPage {
     return {
       "iD": this.iD,
       "name": this.name,
-      "plugin": pluginCodeName,
       "avatar": this.avatar,
       "banner": this.banner,
       "aliases": this.aliases,
@@ -400,7 +395,6 @@ class UniversalComment {
       "author": this.author,
       "commentBody": this.commentBody,
       "hidden": this.hidden,
-      "plugin": pluginCodeName,
       "authorID": this.authorID,
       "countryID": this.countryID,
       "orientation": this.orientation,
