@@ -1,6 +1,5 @@
-version: v0.5.0
+version: v0.6.0
 downloadUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/com.example.tester_external_ts.zip"
 sha256Sum: <auto-filled by build.sh --release>
 changelog:
-  - "Use new plugin build system"
-  - "Update API to match app"
+  - "Initial version"
