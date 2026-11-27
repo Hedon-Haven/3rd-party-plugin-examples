@@ -17,12 +17,12 @@ extension type JsHttpResponse(JSObject _) implements JSObject {
 // Call functions from bridge_functions.js
 Future<HttpResponse> httpRequest(
   String url, [
-  Map<String, String> headers = const {},
+  Map<String, String>? headers,
 ]) async {
   final result =
       await (globalContext.callMethodVarArgs("httpRequest".toJS, [
                 url.toJS,
-                headers.jsify(),
+                headers?.jsify(),
               ])
               as JSPromise)
           .toDart;
@@ -81,8 +81,7 @@ void main() {
         () => downloadThumbnail(
           uri.toDart,
           (headers?.dartify() as Map<Object?, Object?>?)
-                  ?.cast<String, String>() ??
-              const {},
+              ?.cast<String, String>(),
         ).then((r) => r.toJS),
       )).toJS;
   globalContext["getSearchSuggestions"] = ((JSString s) => _asJsPromise(
@@ -98,7 +97,7 @@ void main() {
         ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
       )).toJS;
   globalContext["getVideoUriFromID"] = ((JSString id) => _asJsPromise(
-    () => Future.value(getVideoUriFromID(id.toDart).toJS),
+    () => getVideoUriFromID(id.toDart).then((r) => r?.toJS),
   )).toJS;
   globalContext["getVideoMetadata"] =
       ((JSString id, JSAny? uvp) => _asJsPromise(
@@ -114,11 +113,11 @@ void main() {
         () => getProgressThumbnails(
           id.toDart,
           raw.toDart,
-        ).then((r) => r.jsify()!),
+        ).then((r) => r?.jsify()),
       )).toJS;
   globalContext["getCommentUriFromID"] =
       ((JSString cid, JSString vid) => _asJsPromise(
-        () => Future.value(getCommentUriFromID(cid.toDart, vid.toDart).toJS),
+        () => getCommentUriFromID(cid.toDart, vid.toDart).then((r) => r?.toJS),
       )).toJS;
   globalContext["getComments"] =
       ((JSString vid, JSString raw, JSNumber page) => _asJsPromise(
@@ -137,7 +136,7 @@ void main() {
         ).then((r) => r.map((e) => e.toMap()).toList().jsify()!),
       )).toJS;
   globalContext["getAuthorUriFromID"] = ((JSString id) => _asJsPromise(
-    () => Future.value(getAuthorUriFromID(id.toDart).toJS),
+    () => getAuthorUriFromID(id.toDart).then((r) => r?.toJS),
   )).toJS;
   globalContext["getAuthorPage"] = ((JSString id) => _asJsPromise(
     () => getAuthorPage(id.toDart).then((r) => r.toMap().jsify()!),

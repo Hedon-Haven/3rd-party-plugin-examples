@@ -10,13 +10,13 @@ interface PluginApi {
   downloadThumbnail(uri: string, thumbnailHttpHeaders: Record<string, string> | null): Promise<Uint8Array>;
   getSearchSuggestions(searchString: string): Promise<string[]>;
   getSearchResults(request: UniversalSearchRequest, page: number): Promise<UniversalVideoPreview[]>;
-  getVideoUriFromID(videoID: string): string;
+  getVideoUriFromID(videoID: string): Promise<string | null>;
   getVideoMetadata(videoID: string, uvp: UniversalVideoPreview): Promise<UniversalVideoMetadata>;
-  getProgressThumbnails(videoID: string, rawHtml: string): Promise<Uint8Array[]>;
-  getCommentUriFromID(commentID: string, videoID: string): string;
+  getProgressThumbnails(videoID: string, rawHtml: string): Promise<Uint8Array[] | null>;
+  getCommentUriFromID(commentID: string, videoID: string): Promise<string | null>;
   getComments(videoID: string, rawHtml: string, page: number): Promise<UniversalComment[]>;
   getVideoSuggestions(videoID: string, rawHtml: string, page: number): Promise<UniversalVideoPreview[]>;
-  getAuthorUriFromID(authorID: string): string;
+  getAuthorUriFromID(authorID: string): Promise<string | null>;
   getAuthorPage(authorID: string): Promise<UniversalAuthorPage>;
   getAuthorVideos(authorID: string, rawHtml: string, page: number): Promise<UniversalVideoPreview[]>;
 }
@@ -34,7 +34,7 @@ Object.assign(globalThis, {
     (await plugin.getVideoMetadata(id, UniversalVideoPreview.fromMap(uvp))).toMap(),
   // Uint8Array would arrive in the host as a map instead of a list
   getProgressThumbnails: async (id: string, raw: string) =>
-    (await plugin.getProgressThumbnails(id, raw)).map((e) => Array.from(e)),
+    (await plugin.getProgressThumbnails(id, raw))?.map((e) => Array.from(e)),
   getCommentUriFromID: plugin.getCommentUriFromID,
   getComments: async (vid: string, raw: string, page: number) =>
     (await plugin.getComments(vid, raw, page)).map((e) => e.toMap()),

@@ -7,6 +7,7 @@ const _parseExternalLink = parseExternalLink;
 const _getHomePage = getHomePage;
 const _getSearchResults = getSearchResults;
 const _getVideoMetadata = getVideoMetadata;
+const _getProgressThumbnails = getProgressThumbnails;
 const _getComments = getComments;
 const _getVideoSuggestions = getVideoSuggestions;
 const _getAuthorPage = getAuthorPage;
@@ -27,6 +28,11 @@ globalThis.getSearchResults = async (req, page) =>
 globalThis.getVideoMetadata = async (id, uvp) =>
   (await _getVideoMetadata(id, UniversalVideoPreview.fromMap(uvp)))
   .toMap();
+
+// Uint8Array would arrive in the host as a map instead of a list
+globalThis.getProgressThumbnails = async (id, raw) =>
+  (await _getProgressThumbnails(id, raw))
+  ?.map((e) => Array.from(e));
 
 globalThis.getComments = async (vid, raw, page) =>
   (await _getComments(vid, raw, page))
