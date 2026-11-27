@@ -8,13 +8,14 @@ Example of a 3rd party plugin written in Dart and compiled to JavaScript.
 
 ## How to use
 
-1. Write your code in `main.dart`. You may also create additional folders or `.dart` files and
+1. Install the [Dart SDK](https://dart.dev/get-dart).
+2. Write your code in `main.dart`. You may also create additional folders or `.dart` files and
    import them in `main.dart`. Make sure that at the end all functions inside `main.dart` are
    implemented.
-2. **Do not** edit or delete `wrapper.dart` and `bridge_functions.js`!
-3. Build the plugin with `bash build.sh`.
-4. Test in the app: install the zip from `deploy/` in the Hedon Haven app.
-5. To publish the plugin, follow the "Releasing" section in `TEMPLATE_README.md`.
+3. **Do not** edit or delete `wrapper.dart` and `bridge_functions.js`!
+4. Build the plugin with `bash build.sh`.
+5. Test in the app: install the zip from `deploy/` in the Hedon Haven app.
+6. To publish the plugin, follow the "Releasing" section in `TEMPLATE_README.md`.
 
 ## Caveats
 
