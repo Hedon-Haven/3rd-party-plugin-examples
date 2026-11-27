@@ -6,7 +6,7 @@ metadata:
   developer: "Hedon dev"
   contactEmail: "contact@hedon-haven.top"
   issueTrackerUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/issues"
-  description: "A tester plugin written in dart for testing external plugins"
+  description: "A tester plugin written in Dart for testing external plugins"
   updateUrl: "https://github.com/Hedon-Haven/3rd-party-plugin-examples/releases/latest/download/com.example.tester_external_dart.update.yaml"
 
 providerData:

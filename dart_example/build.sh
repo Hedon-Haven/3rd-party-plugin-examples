@@ -65,9 +65,9 @@ dart compile js ./src/lib/wrapper.dart -O4 -o ./build/compiled-dart.js
 
 echo "Combining into build/bundle.js..."
 {
-  echo "// ==== START: bridge-functions.js ===="
+  echo "// ==== START: bridge_functions.js ===="
   cat src/lib/bridge_functions.js
-  echo -e "\n// ==== END: bridge-functions.js ====\n"
+  echo -e "\n// ==== END: bridge_functions.js ====\n"
 
   echo "// ==== START: compiled-dart.js ===="
   cat ./build/compiled-dart.js
