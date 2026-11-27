@@ -8,8 +8,6 @@ import 'universal_formats.dart';
 import 'wrapper.dart';
 
 const simulateDelays = false;
-bool progressThumbnailsCancelled = false;
-
 Future<void> init() async {
   if (simulateDelays) await Future.delayed(const Duration(seconds: 2));
   // read cache file to showcase functionality
@@ -26,12 +24,6 @@ Future<void> init() async {
     );
   }
   consoleLog("info", "Tester External plugin initialized");
-}
-
-Future<bool> runFunctionalityTest() async {
-  if (simulateDelays) await Future.delayed(const Duration(seconds: 2));
-  consoleLog("info", "Functionality test completed");
-  return true;
 }
 
 Future<ExternalLinkParsed> parseExternalLink(String uriString) async {
@@ -230,26 +222,14 @@ Future<List<Uint8List>> getProgressThumbnails(
   String videoID,
   String rawHtml,
 ) async {
-  // reset cancellation flag
-  progressThumbnailsCancelled = false;
-  // Simulate heavy processing (split into chunks so cancellation can be checked)
-  for (int i = 0; i < 50; i++) {
-    if (progressThumbnailsCancelled) return [];
-    await Future.delayed(const Duration(milliseconds: 100));
-  }
-  if (progressThumbnailsCancelled) return [];
+  // Simulate heavy processing
+  await Future.delayed(const Duration(seconds: 5));
   final response = await httpRequest("https://placehold.co/720x480.png");
   if (response.statusCode != 200) {
     throw Exception("Failed to download/convert placeholder image");
   }
-  if (progressThumbnailsCancelled) return [];
   // Return 1000 copies of the same image
   return List.filled(1000, response.bodyBytes);
-}
-
-void cancelGetProgressThumbnails() {
-  progressThumbnailsCancelled = true;
-  consoleLog("warning", "Set flag to cancel getProgressThumbnails");
 }
 
 String getCommentUriFromID(String commentID, String videoID) =>

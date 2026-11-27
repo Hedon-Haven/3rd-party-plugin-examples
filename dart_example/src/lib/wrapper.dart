@@ -68,9 +68,6 @@ void main() {
   // fromMap() on the way in, toMap() on the way out. main.dart never touches
   // a Map for anything that has a Universal* type.
   globalContext["init"] = (() => _asJsPromise(() => init())).toJS;
-  globalContext["runFunctionalityTest"] = (() => _asJsPromise(
-    () => runFunctionalityTest().then((r) => r.toJS),
-  )).toJS;
   globalContext["parseExternalLink"] = ((JSString uri) => _asJsPromise(
     () => parseExternalLink(uri.toDart).then((r) => r.toMap().jsify()!),
   )).toJS;
@@ -119,9 +116,6 @@ void main() {
           raw.toDart,
         ).then((r) => r.jsify()!),
       )).toJS;
-  //globalContext["cancelGetProgressThumbnails"] = (() => _asJsPromise(
-  //  () => Future.value(cancelGetProgressThumbnails()),
-  //)).toJS;
   globalContext["getCommentUriFromID"] =
       ((JSString cid, JSString vid) => _asJsPromise(
         () => Future.value(getCommentUriFromID(cid.toDart, vid.toDart).toJS),

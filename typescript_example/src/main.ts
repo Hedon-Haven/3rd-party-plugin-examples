@@ -1,7 +1,5 @@
 const simulateDelays = false;
 
-let progressThumbnailsCancelled = false;
-
 // Matches Dart's String.fromCharCodes / charCodeAt usage in init(); fine for
 // the ASCII-only random-number test string.
 function bytesToString(bytes: number[]): string {
@@ -28,12 +26,6 @@ const plugin: PluginApi = {
       consoleLog("info", `Read from file: ${bytesToString(result.message)}`);
     }
     consoleLog("info", "Tester External plugin initialized");
-  },
-
-  runFunctionalityTest: async () => {
-    if (simulateDelays) await new Promise((r) => setTimeout(r, 2000));
-    consoleLog("info", "Functionality test completed");
-    return true;
   },
 
   parseExternalLink: async (uriString) => {
@@ -212,26 +204,14 @@ const plugin: PluginApi = {
   },
 
   getProgressThumbnails: async (videoID, rawHtml) => {
-    // reset cancellation flag
-    progressThumbnailsCancelled = false;
-    // Simulate heavy processing (split into chunks so cancellation can be checked)
-    for (let i = 0; i < 50; i++) {
-      if (progressThumbnailsCancelled) return [];
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-    if (progressThumbnailsCancelled) return [];
+    // Simulate heavy processing
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const response = await httpRequest("https://placehold.co/720x480.png");
     if (response.statusCode !== 200) {
       throw new Error("Failed to download/convert placeholder image");
     }
-    if (progressThumbnailsCancelled) return [];
     // Return 1000 copies of the same image
     return new Array<Uint8Array>(1000).fill(Uint8Array.from(response.bodyBytes));
-  },
-
-  cancelGetProgressThumbnails: () => {
-    progressThumbnailsCancelled = true;
-    consoleLog("warning", "Set flag to cancel getProgressThumbnails");
   },
 
   getCommentUriFromID: (commentID, videoID) => `https://example.com/${videoID}/${commentID}`,

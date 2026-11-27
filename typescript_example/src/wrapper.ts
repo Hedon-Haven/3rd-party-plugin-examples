@@ -5,7 +5,6 @@
 // Every function the host calls. main.ts must implement all of them
 interface PluginApi {
   init(): Promise<void>;
-  runFunctionalityTest(): Promise<boolean>;
   parseExternalLink(uriString: string): Promise<ExternalLinkParsed>;
   getHomePage(page: number): Promise<UniversalVideoPreview[]>;
   downloadThumbnail(uri: string, thumbnailHttpHeaders: Record<string, string> | null): Promise<Uint8Array>;
@@ -14,7 +13,6 @@ interface PluginApi {
   getVideoUriFromID(videoID: string): string;
   getVideoMetadata(videoID: string, uvp: UniversalVideoPreview): Promise<UniversalVideoMetadata>;
   getProgressThumbnails(videoID: string, rawHtml: string): Promise<Uint8Array[]>;
-  cancelGetProgressThumbnails(): void;
   getCommentUriFromID(commentID: string, videoID: string): string;
   getComments(videoID: string, rawHtml: string, page: number): Promise<UniversalComment[]>;
   getVideoSuggestions(videoID: string, rawHtml: string, page: number): Promise<UniversalVideoPreview[]>;
@@ -25,7 +23,6 @@ interface PluginApi {
 
 Object.assign(globalThis, {
   init: plugin.init,
-  runFunctionalityTest: plugin.runFunctionalityTest,
   parseExternalLink: async (uri: string) => (await plugin.parseExternalLink(uri)).toMap(),
   getHomePage: async (page: number) => (await plugin.getHomePage(page)).map((e) => e.toMap()),
   downloadThumbnail: plugin.downloadThumbnail,
@@ -38,7 +35,6 @@ Object.assign(globalThis, {
   // Uint8Array would arrive in the host as a map instead of a list
   getProgressThumbnails: async (id: string, raw: string) =>
     (await plugin.getProgressThumbnails(id, raw)).map((e) => Array.from(e)),
-  cancelGetProgressThumbnails: plugin.cancelGetProgressThumbnails,
   getCommentUriFromID: plugin.getCommentUriFromID,
   getComments: async (vid: string, raw: string, page: number) =>
     (await plugin.getComments(vid, raw, page)).map((e) => e.toMap()),
